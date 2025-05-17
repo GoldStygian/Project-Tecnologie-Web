@@ -1,0 +1,11 @@
+{
+  "name": "tecweb-project",
+  "version": "1.0.0",
+  "description": "progetto di tecnologie web: webtch's streetcats",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Raffaele Raia",
+  "license": "ISC"
+}
