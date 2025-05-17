@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+
+    services:
+      sonar:
+        image: sonarqube:9-community   # o la versione che preferisci
+        ports:
+          - 9000:9000
+        options: >-
+          --health-cmd="curl -sSf http://localhost:9000 || exit 1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wait for SonarQube to be ready
+        run: |
+          echo "Waiting for SonarQube..."
+          until curl -sSf http://localhost:9000; do
+            sleep 5
+          done
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        with:
+          sonar-host-url: http://localhost:9000
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          args: >
+            -Dsonar.projectKey=tuo-progetto-chiave
+            -Dsonar.sources=src
+            -Dsonar.java.binaries=target/classes
+
+      - name: Build
+        run: mvn clean verify
