@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StreetCats - Dettaglio Gatto</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <a href="index.html">Home</a>
+      <a href="login.html">Login</a>
+      <a href="register.html">Registrati</a>
+    </nav>
+  </header>
+  <main class="container">
+    <h1>Titolo del Gatto</h1>
+    <img src="/path/to/photo.jpg" alt="Foto del gatto" style="width:100%;border-radius:4px;" />
+    <div class="map-placeholder">Mappa posizione gatto</div>
+    <p><strong>Descrizione:</strong></p>
+    <div class="description">
+      <!-- qui va il contenuto Markdown renderizzato -->
+      <p>Questo è un esempio di <em>descrizione</em> con <a href="#">link</a>.</p>
+    </div>
+    <p><small>Inserito il: 2025-05-17</small></p>
+
+    <section class="comment-section">
+      <h2>Commenti</h2>
+      <div class="comment">
+        <p><strong>Mario:</strong> Bellissimo gatto!</p>
+      </div>
+      <div class="comment">
+        <p><strong>Luisa:</strong> L'ho visto anche io ieri.</p>
+      </div>
+
+      <!-- comment form (solo utenti autenticati) -->
+      <div class="comment-form">
+        <h3>Lascia un commento</h3>
+        <form action="#" method="POST">
+          <textarea name="content" placeholder="Il tuo commento..."></textarea>
+          <button type="submit">Invia</button>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
