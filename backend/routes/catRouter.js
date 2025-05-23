@@ -15,25 +15,24 @@ catRouter.get("", (req, res, next) => { // OK
 });
 
 
-catRouter.post("", authorization.enforceAuthentication, (req, res, next) => {
+catRouter.post("", authorization.enforceAuthentication, (req, res, next) => { // OK
+  CatController.addCat(req.body, req.username)
+    .then(newCat => { res.json(newCat)})
+    .catch(err => next(err));
+});
+
+catRouter.delete("/:id", authorization.ensureUsersModifyOnlyOwnCats, (req, res, next) => {
 
 });
 
+// tutti possono visualizzare gatti specifici
 catRouter.get("/:id", (req, res, next) => { // OK
-  CatController.getSpecificCat(req.params.id)
+  CatController.getSpecificCat(req.params.id, req.username)
     .then(specificCat => {
       if (!specificCat){ return next({status: 404, message: "Cat not found"}) };
       res.json(specificCat);
     })
     .catch(err => next(err));
-});
-
-catRouter.put("/:id", authorization.ensureUsersModifyOnlyOwnCats, (req, res, next) => {
-
-});
-
-catRouter.delete("/:id", authorization.ensureUsersModifyOnlyOwnCats, (req, res, next) => {
-
 });
 
 catRouter.get("/:id/comments", (req, res, next) => {

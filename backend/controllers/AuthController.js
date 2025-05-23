@@ -25,6 +25,16 @@ export class AuthController {
   }
 
   static async saveUser(req){
+
+    const alreadUsr = await User.findOne({
+        where: { userName: req.body.usr }
+      })
+    if(alreadUsr) { 
+      const error = new Error('Username already taken');
+      error.status = 409;
+      throw error;
+    }
+
     //save new user
     const user = await User.create({
       userName: req.body.usr, 
@@ -36,7 +46,7 @@ export class AuthController {
   }
 
   static issueToken(username){
-    return Jwt.sign({user:username}, process.env.TOKEN_SECRET, {expiresIn: `${24*60*60}s`});
+    return Jwt.sign({user:username}, process.env.TOKEN_SECRET, {expiresIn: `${5*24*60*60}s`});
   }
 
   static isTokenValid(token, callback){

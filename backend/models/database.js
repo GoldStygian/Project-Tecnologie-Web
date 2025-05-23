@@ -62,14 +62,63 @@ createCommentModel(database);
 export const {User, Cat, Comment} = database.models;
 
 // -- associations configuration --
-User.hasMany(Cat, {foreignKey: "userId", onDelete: "CASCADE", onUpdate: "CASCADE"});
-Cat.User = Cat.belongsTo(User, {foreignKey: "userId",onDelete: "CASCADE", onUpdate: "CASCADE" }); // Associo il post del gatto con il pubblicatore
+// User.hasMany(Cat, {sourceKey: 'userName', foreignKey: "userName", onDelete: "CASCADE", onUpdate: "CASCADE"});
+// Cat.User = Cat.belongsTo(User, {targetKey: 'userName', foreignKey: "userName", onDelete: "CASCADE", onUpdate: "CASCADE" }); // Associo il post del gatto con il pubblicatore
 
-User.hasMany(Comment, {foreignKey: "userId", onDelete: "CASCADE", onUpdate: "CASCADE" }); // Un utente può pubblicare più commenti
-Comment.belongsTo(User, {foreignKey: "userId", as: "author", onDelete: "CASCADE", onUpdate: "CASCADE"});
+// User.hasMany(Comment, {sourceKey: 'userName', foreignKey: "userName", onDelete: "CASCADE", onUpdate: "CASCADE" }); // Un utente può pubblicare più commenti
+// Comment.belongsTo(User, {targetKey: 'userName', foreignKey: "userName", as: "author", onDelete: "CASCADE", onUpdate: "CASCADE"});
 
-Cat.hasMany(Comment, { foreignKey: "catId", onDelete: "CASCADE", onUpdate: "CASCADE" });
-Comment.belongsTo(Cat, { foreignKey: "catId", onDelete: "CASCADE", onUpdate: "CASCADE" });
+// Cat.hasMany(Comment, { foreignKey: "catId", onDelete: "CASCADE", onUpdate: "CASCADE" });
+// Comment.belongsTo(Cat, { foreignKey: "catId", onDelete: "CASCADE", onUpdate: "CASCADE" });
+
+User.hasMany(Cat, {
+  sourceKey: 'userName',
+  foreignKey: {
+    name: 'userName',   // nome della colonna
+    allowNull: false    // NOT NULL
+  },
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+Cat.belongsTo(User, { // Associo il post del gatto con il pubblicatore
+  targetKey: 'userName',
+  foreignKey: {
+    name: 'userName',
+    allowNull: false
+  },
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+
+User.hasMany(Comment, { // Un utente può pubblicare più commenti
+  sourceKey: 'userName',
+  foreignKey: { name: 'userName', allowNull: false },
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+Comment.belongsTo(User, {
+  targetKey: 'userName',
+  foreignKey: { name: 'userName', allowNull: false },
+  as: 'author', // Quel as ti serve solo quando includi l’User legato al Cat: cat.author.userName
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+Cat.hasMany(Comment, {
+  foreignKey: { name: 'catId', allowNull: false },
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+Comment.belongsTo(Cat, {
+  foreignKey: { name: 'catId', allowNull: false },
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
 
 // -- synchronize schema (creates missing tables) --
 // Per ambienti di sviluppo rapido, sync({ alter: true }) ti risparmia il lavoro manuale.

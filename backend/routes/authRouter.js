@@ -46,8 +46,7 @@ authenticationRouter.post("/signup", async (req, res, next) => {
     const user = await AuthController.saveUser(req);
     res.status(201).json(user);
   } catch (err) {
-    console.error(err);
-    next({ status: 500, message: 'Could not save user' });
+    next(err);
   }
   
 });

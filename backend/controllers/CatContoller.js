@@ -10,6 +10,10 @@ export class CatController {
         return await Cat.findByPk(catId, {include: [User, Comment]});
     }
 
+    static async addCat(jsonCat, username){
+        return await Cat.create({ ...jsonCat, userName: username });
+    }
+
 //   static async getTodosForCurrentUser(req){
 //     return Todo.findAll({
 //       where: {

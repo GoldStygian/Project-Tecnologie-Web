@@ -3,14 +3,15 @@ import { createHash } from "crypto";
 
 export function createModel(database){
   database.define('User', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
+    // id: {
+    //   type: DataTypes.INTEGER,
+    //   autoIncrement: true,
+    //   primaryKey: true
+    // },
     userName: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
