@@ -1,6 +1,7 @@
 import express from "express";
 import * as authorization from "../middleware/authorization.js";
 import { CatController } from "../controllers/CatContoller.js"
+import { createCatSchema } from "../schemas/Cat.js";
 
 
 export const catRouter = new express.Router();
@@ -19,7 +20,15 @@ catRouter.get("", (req, res, next) => { // OK
 
 
 catRouter.post("", authorization.enforceAuthentication, (req, res, next) => { // OK
-  CatController.addCat(req.body, req.username)
+  
+  const parseResult = createCatSchema.safeParse(req.body); // con safe non genero errori
+
+  if (!parseResult.success) { // l'utente ha inviato dati non validi
+    const errors = parseResult.error.format();
+    return res.status(400).json({ message: "Dati non validi", errors });
+  }
+
+  CatController.addCat(parseResult.data, req.username)
     .then(newCat => { res.json(newCat)})
     .catch(err => next(err));
 });

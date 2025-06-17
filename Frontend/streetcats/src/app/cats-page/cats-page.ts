@@ -17,6 +17,7 @@ export class CatsPage implements OnInit {
   restService = inject(RestBackendService);
   flash = inject(FlashMessageService);
   cats: Cat[] = [];
+  loaded: boolean = false;
 
   ngOnInit() {
     this.restService.getCats().subscribe({
@@ -25,17 +26,13 @@ export class CatsPage implements OnInit {
         console.log(data);
         this.cats = data;
         this.loadMap();
+        this.loaded = true;
       },
       error: (err) => {
         this.flash.error('Error loading cats!');
         console.log(err);
       }
     });
-  }
-
-  convertCoordsToNum(str: string): number {
-    // Rimuove i punti da una stringa
-    return Number(str.replace(/\./g, ''));
   }
 
   loadMap() {

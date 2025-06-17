@@ -12,11 +12,11 @@ export function createModel(database){
       allowNull: false
     },
     longitudine: {
-      type: DataTypes.STRING,
+      type: DataTypes.NUMBER,
       allowNull: false
     },
     latitudine: {
-      type: DataTypes.STRING,
+      type: DataTypes.NUMBER,
       allowNull: false
     },
     title: {
