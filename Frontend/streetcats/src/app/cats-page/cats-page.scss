@@ -1,0 +1,102 @@
+@use '../app.scss' as *;
+
+#map { height: 180px; }
+
+.cats-container {
+  padding: 2rem;
+  font-family: var(--font-family);
+  background-color: var(--background);
+  transition: background-color 0.3s ease;
+
+  // Titolo di sezione
+  .section-title {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    transition: color 0.3s ease;
+  }
+
+  // Griglia di card
+  .cats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  // Card singola
+  .cat-card {
+    background-color: var(--card-bg);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px var(--card-shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s ease;
+
+    // Effetto hover
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px var(--card-shadow);
+    }
+
+    // Immagine del gatto
+    .cat-photo {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    // Sezione info
+    .cat-info {
+      padding: 1rem;
+      flex: 1;
+
+      // Nome del gatto
+      .cat-title {
+        font-size: 1.25rem;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+        transition: color 0.3s ease;
+      }
+
+      // Meta info: coordinate e data
+      .cat-meta {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+        transition: color 0.3s ease;
+
+        strong { 
+          color: var(--primary-color); 
+          transition: color 0.3s ease;
+        }
+        em { 
+          font-style: italic; 
+        }
+      }
+
+      // Segnalato da utente
+      .cat-user {
+        font-size: 0.875rem;
+        color: var(--accent-color);
+        margin-top: auto;
+        transition: color 0.3s ease;
+      }
+    }
+  }
+
+  // Responsive per mobile
+  @media (max-width: $breakpoint-mobile) {
+    padding: 1rem;
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .cat-card {
+      .cat-photo { height: 140px; }
+    }
+  }
+}

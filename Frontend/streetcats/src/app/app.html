@@ -1,0 +1,8 @@
+<main id="main" [class.dark-theme]="isDark" [class.light-theme]="!isDark">
+  <app-navbar></app-navbar>
+  <app-flash-messages></app-flash-messages>
+  <router-outlet></router-outlet>
+  <button class="theme-toggle-btn" (click)="toggleTheme()">
+    {{ isDark ? '🌞 Tema Chiaro' : '🌙 Tema Scuro' }}
+  </button>
+</main>

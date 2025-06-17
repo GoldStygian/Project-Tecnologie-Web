@@ -16,6 +16,7 @@ export function enforceAuthentication(req, res, next){
       next({status: 401, message: "Unauthorized"});
     } else {
       req.username = decodedToken.user;
+      console.log("[username jwt] ", req.username)
       next();
     }
   });
@@ -23,8 +24,8 @@ export function enforceAuthentication(req, res, next){
 
 export async function ensureUsersModifyOnlyOwnCats(req, res, next){
   const userName = req.username;
-  const todoId = req.params.id;
-  const userHasPermission = await AuthController.canUserModifyCat(userName, todoId);
+  const catId = req.params.id;
+  const userHasPermission = await AuthController.canUserModifyCat(userName, catId);
   if(userHasPermission){
     next();
   } else {

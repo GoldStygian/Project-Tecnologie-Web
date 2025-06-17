@@ -5,6 +5,9 @@ import { CatController } from "../controllers/CatContoller.js"
 
 export const catRouter = new express.Router();
 
+// cats GET[ok] POST[ok]
+// cats/:id GET[ok] PUT DELETE[ok]
+
 // tutti possono visualizzare i gatti
 catRouter.get("", (req, res, next) => { // OK
   CatController.getAllCats().then(catItems => {
@@ -21,8 +24,15 @@ catRouter.post("", authorization.enforceAuthentication, (req, res, next) => { //
     .catch(err => next(err));
 });
 
-catRouter.delete("/:id", authorization.ensureUsersModifyOnlyOwnCats, (req, res, next) => {
-
+catRouter.delete("/:id", authorization.enforceAuthentication, authorization.ensureUsersModifyOnlyOwnCats, (req, res, next) => {
+  CatController.delCat(req.params.id)
+  .then(delRow => {
+        if (delRow <= 0) {
+          return res.status(404).json({ message: "Nessun gatto trovato da eliminare." });
+        }
+        return res.status(200).json({ message: "Gatto eliminato con successo." });
+  })
+  .catch(next); // Inoltra l'errore al middleware di errore
 });
 
 // tutti possono visualizzare gatti specifici
@@ -35,9 +45,9 @@ catRouter.get("/:id", (req, res, next) => { // OK
     .catch(err => next(err));
 });
 
-catRouter.get("/:id/comments", (req, res, next) => {
+// catRouter.get("/:id/comments", (req, res, next) => {
 
-});
+// });
 
 catRouter.post("/:id/comments", authorization.enforceAuthentication, (req, res, next) => {
 

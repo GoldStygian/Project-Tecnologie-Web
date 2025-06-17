@@ -1,0 +1,131 @@
+@use '../app.scss' as *;
+
+// Mixin per il container centrato
+@mixin container-max-width {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+// Navbar principale
+#navbar {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-family: var(--font-family);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+
+    .navbar-container {
+        @include container-max-width;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 4rem;
+    }
+
+    // Brand (logo + testo)
+    .navbar-brand {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
+
+        .brand-icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: rotate(-10deg) scale(1.1);
+            }
+        }
+
+        .brand-text {
+            font-size: 1.25rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+    }
+
+    // Lista di link
+    .navbar-nav {
+        list-style: none;
+        display: flex;
+        margin: 0;
+        padding: 0;
+
+        .nav-item {
+            margin-left: 1.5rem;
+
+            .nav-link {
+                position: relative;
+                text-decoration: none;
+                color: inherit;
+                font-size: 1rem;
+                padding: 0.5rem 0;
+                transition: color 0.3s;
+
+                // Linea sotto on hover e active
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -4px;
+                    left: 0;
+                    width: 0%;
+                    height: 2px;
+                    background-color: var(--accent-color);
+                    transition: width 0.3s;
+                }
+
+                &:hover {
+                    color: var(--accent-color);
+
+                    &::after {
+                        width: 100%;
+                    }
+                }
+
+                &.active {
+                    color: var(--accent-color);
+
+                    &::after {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    // Media query per mobile
+    @media (max-width: $breakpoint-mobile) {
+        .navbar-container {
+            flex-direction: column;
+            align-items: flex-start;
+            height: auto;
+            padding: 0.5rem 1rem;
+        }
+
+        .navbar-nav {
+            flex-direction: column;
+            width: 100%;
+            margin-top: 0.5rem;
+
+            .nav-item {
+                margin: 0.25rem 0;
+
+                .nav-link {
+                    width: 100%;
+                    padding: 0.5rem;
+
+                    &::after {
+                        bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+}

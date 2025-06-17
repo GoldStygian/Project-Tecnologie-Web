@@ -14,6 +14,14 @@ export class CatController {
         return await Cat.create({ ...jsonCat, userName: username });
     }
 
+    static async delCat(catid){
+        return await Cat.destroy({
+            where:{
+                id: catid
+            },
+        })
+    }
+
 //   static async getTodosForCurrentUser(req){
 //     return Todo.findAll({
 //       where: {

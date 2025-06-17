@@ -1,0 +1,30 @@
+<div class="flash-container">
+
+    @for (msg of messages; track msg) {
+        <div
+            [ngClass]="'flash ' + msg.type"
+            (click)="remove(msg)"
+            class="fade-in"
+        >
+            <!-- <div class="flash-icon">
+                <span *ngIf="msg.type === 'success'">✅</span>
+                <span *ngIf="msg.type === 'error'">❌</span>
+                <span *ngIf="msg.type === 'info'">ℹ️</span>
+                <span *ngIf="msg.type === 'warning'">⚠️</span>
+            </div> -->
+            <div class="flash-content">
+                <div class="flash-text">{{ msg.text }}</div>
+            </div>
+
+        </div>
+    }
+        
+    <!-- <div
+      *ngFor="let msg of messages"
+      [ngClass]="'flash ' + msg.type"
+      (click)="remove(msg)"
+    >
+      {{ msg.text }}
+    </div> -->
+
+  </div>

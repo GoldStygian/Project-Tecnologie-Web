@@ -6,6 +6,7 @@ import { rootRouter } from "./routes/routes.js";
 import { catRouter } from "./routes/catRouter.js";
 import { authenticationRouter } from "./routes/authRouter.js";
 import { serve, setup } from './swagger.js';
+import cors from 'cors';
 
 // -- LIST --
 // - DB ok
@@ -21,6 +22,7 @@ const SERVER_PORT = 3000;
 app.use(express.json()); // Parse incoming requests with a JSON payload
 app.use(morgan('dev')); // log
 app.use(express.static("static")); // File Statici
+app.use(cors());
 app.use('/api-docs', serve(), setup());
 
 app.use(authenticationRouter);

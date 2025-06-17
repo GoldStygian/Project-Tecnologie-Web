@@ -1,4 +1,4 @@
-import { User } from "../models/database.js";
+import { User, Cat } from "../models/database.js";
 import Jwt from "jsonwebtoken";
 
 
@@ -60,6 +60,10 @@ export class AuthController {
         attributes: ['userName']
       }]
     });
+    console.log("[have auth?] " + JSON.stringify(cat.toJSON(), null, 2));
+    console.log("[expected]", userName);
+    console.log("[actual]", cat.User?.userName);
+    console.log("[have auth?] " + (cat.User?.userName === userName));
     return cat && (cat.User?.userName === userName); //cat must exist and be associated with user
   }
 }

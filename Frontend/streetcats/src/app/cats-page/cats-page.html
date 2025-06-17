@@ -1,0 +1,31 @@
+<div id="map"></div>
+
+<div class="cats-container">
+  <!-- Titolo della sezione -->
+  <h2 class="section-title">Esplora i nostri amici felini</h2>
+
+  <!-- Griglia di card per ciascun gatto -->
+  <div class="cats-grid">
+    <div class="cat-card" *ngFor="let cat of cats">
+      <!-- Foto del gatto -->
+      <img [src]="cat.photo" [alt]="cat.title" class="cat-photo" />
+
+      <!-- Info del gatto -->
+      <div class="cat-info">
+        <!-- Titolo / nome del gatto -->
+        <h3 class="cat-title">{{ cat.title }}</h3>
+
+        <!-- Coordinate e data di inserimento -->
+        <p class="cat-meta">
+          📍 <strong>{{ cat.latitudine }}, {{ cat.longitudine }}</strong><br />
+          🕒 <em>{{ cat.createdAt | date:'dd/MM/yyyy' }}</em>
+        </p>
+
+        <!-- Utente che ha segnalato -->
+        <p class="cat-user">
+          Segnalato da: <strong>{{ cat.userName }}</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
