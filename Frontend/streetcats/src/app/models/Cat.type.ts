@@ -1,10 +1,10 @@
 export interface Cat{
-    id: number,
+    id?: number,
     photo: string,
-    longitudine: string,
-    latitudine: string,
+    longitudine: number,
+    latitudine: number,
     title: string,
-    createdAt: string,
-    updatedAt: string,
-    userName: string
+    createdAt?: string,
+    updatedAt?: string,
+    userName?: string
 }

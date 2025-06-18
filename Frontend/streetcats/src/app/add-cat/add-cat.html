@@ -1,5 +1,25 @@
 <p>add-cat works!</p>
 
-<form action="/profile" method="post" enctype="multipart/form-data">
-  <input type="file" name="avatar" />
+<form [formGroup]="catForm" (ngSubmit)="handleAddCat()">
+  <label>
+    Titolo
+    <input formControlName="title" />
+  </label>
+  
+  <label>
+    Immagine
+    <input type="file" (change)="onFileSelected($event)" />
+  </label>
+  
+  <label>
+    Longitudine
+    <input formControlName="longitudine" type="number" />
+  </label>
+  
+  <label>
+    Latitudine
+    <input formControlName="latitudine" type="number" />
+  </label>
+  
+  <button type="submit">Aggiungi Gatto</button>
 </form>

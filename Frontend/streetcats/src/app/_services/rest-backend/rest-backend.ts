@@ -10,6 +10,7 @@ import { Cat } from '../../models/Cat.type';
 export class RestBackendService {
 
   url = "http://localhost:3000";
+  mediaUrl = "http://localhost:3000";
   constructor(private http: HttpClient) {}
 
   httpOptions = {
@@ -26,6 +27,11 @@ export class RestBackendService {
   getCats() {
     const url = `${this.url}/cats`; 
     return this.http.get<Cat[]>(url, this.httpOptions);
+  }
+
+  addCat(data: FormData) {
+    const url = `${this.url}/cats`; 
+    return this.http.post<Cat>(url, data);
   }
 
   // getArtist(uuid: string) {

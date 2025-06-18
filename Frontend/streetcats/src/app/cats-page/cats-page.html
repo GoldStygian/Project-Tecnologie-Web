@@ -7,27 +7,29 @@
 
   <!-- Griglia di card per ciascun gatto -->
   <div class="cats-grid">
-    <div class="cat-card" *ngFor="let cat of cats">
-      <!-- Foto del gatto -->
-      <img [src]="cat.photo" [alt]="cat.title" class="cat-photo" />
+    @for (cat of cats; track cat.id) {
+      <div class="cat-card">
+        <!-- Foto del gatto -->
+        <img [src]="restService.mediaUrl + cat.photo" [alt]="cat.title" class="cat-photo" />
 
-      <!-- Info del gatto -->
-      <div class="cat-info">
-        <!-- Titolo / nome del gatto -->
-        <h3 class="cat-title">{{ cat.title }}</h3>
+        <!-- Info del gatto -->
+        <div class="cat-info">
+          <!-- Titolo / nome del gatto -->
+          <h3 class="cat-title">{{ cat.title }}</h3>
 
-        <!-- Coordinate e data di inserimento -->
-        <p class="cat-meta">
-          📍 <strong>{{ cat.latitudine }}, {{ cat.longitudine }}</strong><br />
-          🕒 <em>{{ cat.createdAt | date:'dd/MM/yyyy' }}</em>
-        </p>
+          <!-- Coordinate e data di inserimento -->
+          <p class="cat-meta">
+            📍 <strong>{{ cat.latitudine }}, {{ cat.longitudine }}</strong><br />
+            🕒 <em>{{ cat.createdAt | date:'dd/MM/yyyy' }}</em>
+          </p>
 
-        <!-- Utente che ha segnalato -->
-        <p class="cat-user">
-          Segnalato da: <strong>{{ cat.userName }}</strong>
-        </p>
+          <!-- Utente che ha segnalato -->
+          <p class="cat-user">
+            Segnalato da: <strong>{{ cat.userName }}</strong>
+          </p>
+        </div>
       </div>
-    </div>
+  }
   </div>
 </div>
 }@else {

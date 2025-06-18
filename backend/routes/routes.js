@@ -5,7 +5,3 @@ import { fileURLToPath } from "url";
 
 export const rootRouter = new express.Router();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-rootRouter.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, "../templates", "index.html"));
-});
