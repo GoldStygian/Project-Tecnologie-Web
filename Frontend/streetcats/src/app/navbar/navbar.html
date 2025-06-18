@@ -15,6 +15,21 @@
       <li class="nav-item">
         <a routerLink="/contact" routerLinkActive="active" class="nav-link">Contatti</a>
       </li>
+      <li class="nav-item">
+        <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/add-cat" routerLinkActive="active" class="nav-link">add cat</a>
+      </li>
+      @if(authService.isAuthenticatedSignal()){
+        <li class="nav-item">
+          <a (click)="authService.logout()" class="nav-link">Logout</a>
+        </li>
+      } @else {
+        <li class="nav-item">
+          <a routerLink="/signup" routerLinkActive="active" class="nav-link">Registrati</a>
+        </li>
+      }
     </ul>
     
   </div>

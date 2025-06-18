@@ -18,6 +18,11 @@ export class RestBackendService {
     })
   };
 
+  login(loginRequest: AuthRequest){
+    const url = `${this.url}/auth`; 
+    return this.http.post<string>(url, loginRequest, this.httpOptions);
+  }
+
   getCats() {
     const url = `${this.url}/cats`; 
     return this.http.get<Cat[]>(url, this.httpOptions);
@@ -47,4 +52,9 @@ export class RestBackendService {
   //   return this.http.request(req);
   // }
 
+}
+
+export interface AuthRequest {
+  usr: string, 
+  pwd: string
 }

@@ -2,9 +2,17 @@ import express from "express";
 import * as authorization from "../middleware/authorization.js";
 import { CatController } from "../controllers/CatContoller.js"
 import { createCatSchema } from "../schemas/Cat.js";
-
+import { upload } from "../index.js";
+import path from "path";
+import fs from "fs";
 
 export const catRouter = new express.Router();
+
+// 1. Prepara la cartella /upload se non esiste
+const uploadDir = path.join(__dirname, '..', 'upload');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // cats GET[ok] POST[ok]
 // cats/:id GET[ok] PUT DELETE[ok]
@@ -18,8 +26,7 @@ catRouter.get("", (req, res, next) => { // OK
   });
 });
 
-
-catRouter.post("", authorization.enforceAuthentication, (req, res, next) => { // OK
+catRouter.post("", authorization.enforceAuthentication, upload.single('immagine'), (req, res, next) => { // OK
   
   const parseResult = createCatSchema.safeParse(req.body); // con safe non genero errori
 

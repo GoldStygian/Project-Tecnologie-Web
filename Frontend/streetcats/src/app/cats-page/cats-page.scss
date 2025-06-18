@@ -1,6 +1,11 @@
 @use '../app.scss' as *;
 
-#map { height: 180px; }
+#map { 
+  height: 180px;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
 
 .cats-container {
   padding: 2rem;

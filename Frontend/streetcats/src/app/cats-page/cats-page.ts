@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
-import { RestBackendService } from '../services/rest-backend/rest-backend';
 import { Cat } from '../models/Cat.type';
 import * as L from 'leaflet';
-import { FlashMessageService } from '../services/flash-message/flash-message';
+import { RestBackendService } from '../_services/rest-backend/rest-backend';
+// import { FlashMessageService } from '../_services/flash-message/flash-message';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cats-page',
@@ -15,22 +16,28 @@ import { FlashMessageService } from '../services/flash-message/flash-message';
 export class CatsPage implements OnInit {
 
   restService = inject(RestBackendService);
-  flash = inject(FlashMessageService);
+  // flash = inject(FlashMessageService);
+  toastr = inject(ToastrService);
   cats: Cat[] = [];
   loaded: boolean = false;
+
+  // setTimeout(() => {this.router.navigateByUrl("/cats")}, 10);
 
   ngOnInit() {
     this.restService.getCats().subscribe({
       next: (data) => {
-        this.flash.success('Cats loaded successfully!');
+        this.toastr.success('Cats loaded successfully!');
         console.log(data);
         this.cats = data;
         this.loadMap();
         this.loaded = true;
       },
       error: (err) => {
-        this.flash.error('Error loading cats!');
+        this.toastr.error('Error loading cats!');
         console.log(err);
+      },
+      complete: () => {
+        console.log('Cats loaded');
       }
     });
   }

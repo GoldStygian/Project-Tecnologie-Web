@@ -59,20 +59,6 @@ $breakpoint-mobile: 768px;
   --hover-color: #{lighten($dark-accent, 10%)};
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    overflow-x: hidden;
-}
-
 body {
     font-family: var(--font-family);
     background-color: var(--background);
@@ -80,16 +66,8 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-app-root {
-    display: block;
-    height: 100vh;
-    width: 100%;
-    padding: 5px;
-}
-
 #main {
-    height: 100vh;
-    width: 100%;
+    height: 100%;
     background-color: var(--background);
     color: var(--primary-color);
     font-family: var(--font-family);

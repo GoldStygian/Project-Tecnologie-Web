@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const createCatSchema = z.object({
-  photo: z.string().nonempty("Il campo photo non può essere vuoto"),
+  photo: z.string().nonempty("Il campo photo non può essere vuoto"), // È equivalente a .min(1), ma è più leggibile per il caso specifico della stringa vuota
   
   // se arrivano come stringhe, usa z.coerce per forzare la trasformazione in number
   longitudine: z.coerce

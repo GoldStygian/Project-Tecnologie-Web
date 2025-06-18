@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { AuthService } from '../_services/auth-service/auth-service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,6 +10,14 @@ import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.scss']
 })
-export class Navbar {
+export class Navbar implements OnInit {
+
+  authService = inject(AuthService);
+
+  ngOnInit(): void {
+    console.log("Navbar component initialized");
+    // this.authService.isAuthenticatedSignal
+  }
+
 
 }
