@@ -1,0 +1,90 @@
+@use '../app.scss' as *;
+
+h1{
+    text-align: center;
+}
+
+.accent {
+    color: var(--accent-color);
+}
+
+#add-cat-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1%;
+    align-items: start;
+    padding: 2vw;
+    align-items: stretch; // If the items are smaller than the alignment container, auto-sized items will be equally enlarged to fill the container, respecting the items' width and height limits.
+
+    .form-container {
+        // height: 50vh;
+        background: var(--card-bg);
+        padding: 2%;
+        border-radius: 8px;
+        box-shadow: 0px 0px 5px var(--accent-color);
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
+
+        label {
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        input {
+            padding: 1%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+
+            &:focus {
+                outline: none;
+                border: 1px solid var(--accent-color);
+            }
+        }
+    }
+
+    .coords {
+        display: flex;
+        gap: 1%;
+
+        .small {
+            flex: 1;
+        }
+    }
+
+    .btn-submit { // da omologare
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: var(--accent-color);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+            scale: 1.05;
+            background-color: var(--hover-color);
+        }
+    }
+
+    #map2 {
+        // height: 50vh;
+        box-shadow: 0px 0px 5px var(--accent-color);
+        border-radius: 8px;
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+        #add-cat-container {
+            grid-template-columns: 1fr;
+        }
+    }
+}

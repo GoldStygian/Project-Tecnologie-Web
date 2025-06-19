@@ -1,3 +1,5 @@
+import { Comment } from './Comment.type';
+
 export interface Cat{
     id?: number,
     photo: string,
@@ -6,5 +8,7 @@ export interface Cat{
     title: string,
     createdAt?: string,
     updatedAt?: string,
-    userName?: string
+    userName?: string,
+    description?: string,
+    Comments?: Comment[]
 }

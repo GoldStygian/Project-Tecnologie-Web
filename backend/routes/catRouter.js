@@ -1,7 +1,7 @@
 import express from "express";
 import * as authorization from "../middleware/authorization.js";
 import { CatController } from "../controllers/CatContoller.js"
-import { createCatSchema } from "../schemas/Cat.js";
+import { CatSchema } from "../schemas/Cat.js";
 import { upload } from "../middleware/upload.js";
 
 export const catRouter = new express.Router();
@@ -11,7 +11,7 @@ export const catRouter = new express.Router();
 // cats/:id GET[ok] PUT DELETE[ok]
 
 // tutti possono visualizzare i gatti
-catRouter.get("", (req, res, next) => { // OK
+catRouter.get("", (req, res, next) => {
   CatController.getAllCats().then(catItems => {
     res.json(catItems)
   }).catch(err => {
@@ -21,14 +21,15 @@ catRouter.get("", (req, res, next) => { // OK
 
 catRouter.post("", authorization.enforceAuthentication, upload.single('immagine'), (req, res, next) => { // OK
 
-  const payload = {
-  ...req.body,
-  photo: req.file
-    ? `/upload/${req.file.filename}`      // o semplicemente req.file.filename
-    : console.log("no img")                                  // oppure gestisci caso in cui manca file
-  };
+  if (req.file && !req.file.mimetype.startsWith("image/")) {
+    return res.status(400).json({ message: "Il file caricato non è un'immagine valida." });
+  }
 
-  const parseResult = createCatSchema.safeParse(payload); // con safe non genero errori
+  const photo = `/upload/${req.file.filename}`;
+
+  const payload = {...req.body, photo}
+
+  const parseResult = CatSchema.safeParse(payload); // con safe non genero errori
 
   if (!parseResult.success) { // l'utente ha inviato dati non validi
     const errors = parseResult.error.format();
@@ -52,7 +53,7 @@ catRouter.delete("/:id", authorization.enforceAuthentication, authorization.ensu
 });
 
 // tutti possono visualizzare gatti specifici
-catRouter.get("/:id", (req, res, next) => { // OK
+catRouter.get("/:id", (req, res, next) => {
   CatController.getSpecificCat(req.params.id, req.username)
     .then(specificCat => {
       if (!specificCat){ return next({status: 404, message: "Cat not found"}) };
@@ -61,10 +62,17 @@ catRouter.get("/:id", (req, res, next) => { // OK
     .catch(err => next(err));
 });
 
-// catRouter.get("/:id/comments", (req, res, next) => {
-
-// });
-
+// tutti i logagti possono commentare
 catRouter.post("/:id/comments", authorization.enforceAuthentication, (req, res, next) => {
-
+  // userName by JWT
+  // JWT assicurato by middleware
+  // ID by slug
+  console.log("[d now]", req.body);
+  CatController.addComment(req.params.id, req.body.content, req.username)
+    .then(comment => {
+      console.log("[d now]", comment);
+      if (!comment) { return next({status: 404, message: "Cat not found"}) };
+      res.status(201).json(comment);
+    })
+    .catch(err => next(err));
 });

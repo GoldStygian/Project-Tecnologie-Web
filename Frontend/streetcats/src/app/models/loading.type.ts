@@ -1,0 +1,1 @@
+export type loading = "loading" | "loaded" | "false" | "error";

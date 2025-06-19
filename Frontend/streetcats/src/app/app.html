@@ -1,19 +1,7 @@
-<div id="main" [class.dark-theme]="isDark" [class.light-theme]="!isDark">
+<div id="main" [class.dark-theme]="themeManager.isDark" [class.light-theme]="!themeManager.isDark">
   <app-navbar class="sticky top-0"/>
   <main class="container mx-auto flex-grow">
     <router-outlet></router-outlet>
-    <button class="theme-toggle-btn" (click)="toggleTheme()">{{ isDark ? '🌞 Tema Chiaro' : '🌙 Tema Scuro' }}</button>
+    <button class="theme-toggle-btn" (click)="toggleTheme()">{{ themeManager.isDark ? '🌞 Tema Chiaro' : '🌙 Tema Scuro' }}</button>
   </main>
 </div>
-
-
-
-
-<!-- <main id="main" [class.dark-theme]="isDark" [class.light-theme]="!isDark" class="flex flex-col h-screen bg-gray-50"> -->
-  <!-- <app-navbar></app-navbar> -->
-  <!-- <app-flash-messages></app-flash-messages> -->
-  <!-- <router-outlet></router-outlet>
-  <button class="theme-toggle-btn" (click)="toggleTheme()">
-    {{ isDark ? '🌞 Tema Chiaro' : '🌙 Tema Scuro' }}
-  </button>
-</main> -->

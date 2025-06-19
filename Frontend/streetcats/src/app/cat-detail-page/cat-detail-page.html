@@ -1,0 +1,16 @@
+<div>
+@if (loading == "loading"){
+    <p>loading</p>
+    <app-loading></app-loading>
+}@else if (loading == "loaded"){
+    <p>Cat ID: {{ cat.id }}</p>
+    <p>{{cat.title}} </p>
+    <img [src]="restService.mediaUrl + cat.photo">
+    @for (comment of cat.Comments; track comment) {
+    <div class="comment">
+        <p>{{ comment.content }}</p>
+        <p>By: {{ comment.userName }}</p>
+    </div>
+    }
+}
+</div>

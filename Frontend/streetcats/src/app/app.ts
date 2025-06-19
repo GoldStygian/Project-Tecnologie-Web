@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './navbar/navbar';
+import { ThemeSwitch } from './_services/theme-switch/theme-switch';
 // import { FlashMessageComponent } from './flash-message/flash-message';
 
 @Component({
@@ -14,42 +15,14 @@ import { Navbar } from './navbar/navbar';
 export class App implements OnInit {
   protected title = 'streetcats';
 
-  isDark = false;
+  themeManager = inject(ThemeSwitch); // Inietto il servizio ThemeSwitch
 
   ngOnInit() {
-    // Carica la preferenza del tema dal localStorage
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      this.isDark = savedTheme === 'dark';
-    } else {
-      // Se non c'è una preferenza salvata, usa il tema del sistema
-      this.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    this.applyTheme();
+    this.themeManager.initTheme();
   }
 
   toggleTheme() {
-    this.isDark = !this.isDark;
-    this.applyTheme();
-    // Salva la preferenza nel localStorage
-    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+    this.themeManager.toggleTheme(); // Inverte il tema e salva la preferenza
   }
 
-  private applyTheme() {
-    const htmlEl = document.documentElement;
-    const bodyEl = document.body;
-    
-    // Rimuovi entrambe le classi
-    htmlEl.classList.remove('dark-theme', 'light-theme');
-    bodyEl.classList.remove('dark-theme', 'light-theme');
-    
-    // Aggiungi la classe appropriata
-    if (this.isDark) {
-      htmlEl.classList.add('dark-theme');
-      bodyEl.classList.add('dark-theme');
-    } else {
-      htmlEl.classList.add('light-theme');
-      bodyEl.classList.add('light-theme');
-    }
-  }
 }

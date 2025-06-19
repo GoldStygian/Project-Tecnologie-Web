@@ -29,6 +29,11 @@ export class RestBackendService {
     return this.http.get<Cat[]>(url, this.httpOptions);
   }
 
+  getCat(id: string) {
+    const url = `${this.url}/cats/${id}`; 
+    return this.http.get<Cat>(url, this.httpOptions);
+  }
+
   addCat(data: FormData) {
     const url = `${this.url}/cats`; 
     return this.http.post<Cat>(url, data);

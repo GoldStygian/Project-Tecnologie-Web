@@ -1,25 +1,39 @@
-<p>add-cat works!</p>
+<!-- add-cat.html -->
+<h1>Aggiungi il gattino <strong class="accent">randagio</strong></h1>
+<div id="add-cat-container">
+  <div class="form-container">
+    <form id="catForm" [formGroup]="catForm" (ngSubmit)="handleAddCat()">
+      <div class="field">
+        <label for="title">Titolo</label>
+        <input id="title" formControlName="title" placeholder="Inserisci il titolo" />
+      </div>
 
-<form [formGroup]="catForm" (ngSubmit)="handleAddCat()">
-  <label>
-    Titolo
-    <input formControlName="title" />
-  </label>
-  
-  <label>
-    Immagine
-    <input type="file" (change)="onFileSelected($event)" />
-  </label>
-  
-  <label>
-    Longitudine
-    <input formControlName="longitudine" type="number" />
-  </label>
-  
-  <label>
-    Latitudine
-    <input formControlName="latitudine" type="number" />
-  </label>
-  
-  <button type="submit">Aggiungi Gatto</button>
-</form>
+      <div class="field">
+        <label for="image">Immagine</label>
+        <input id="image" type="file" (change)="onFileSelected($event)" />
+      </div>
+
+      <div class="coords">
+        <div class="field small">
+          <label for="longitudine">Longitudine</label>
+          <input id="longitudine" formControlName="longitudine" type="number" placeholder="es. 14.2681" />
+        </div>
+        <div class="field small">
+          <label for="latitudine">Latitudine</label>
+          <input id="latitudine" formControlName="latitudine" type="number" placeholder="es. 40.8518" />
+        </div>
+      </div>
+      
+      <div class="field">
+        <h3>Descrizione Markdown</h3>
+        <div #editorContainer></div>
+      </div>
+
+      <button type="submit" class="btn-submit">Aggiungi Gatto</button>
+    </form>
+  </div>
+
+  <div id="map2"></div>
+</div>
+<h3>Anteprima</h3>
+<markdown [data]="catForm.value.description"></markdown>

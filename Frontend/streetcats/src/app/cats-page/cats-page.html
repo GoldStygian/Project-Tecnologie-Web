@@ -1,29 +1,29 @@
 <div id="map"></div>
 
-@if (loaded){
-<div class="cats-container">
-  <!-- Titolo della sezione -->
-  <h2 class="section-title">Esplora i nostri amici felini</h2>
+@if (loading == "loading") {
+ <app-loading></app-loading>
+}
 
-  <!-- Griglia di card per ciascun gatto -->
+@if (loading == "loaded") {
+<div class="cats-container">
+
+  @if (cats.length == 0) {
+    <h2 class="section-title">Nessun gatto registrato</h2>
+  }@else {
+    <h2 class="section-title">Esplora i nostri amici felini</h2>
+  }
+
   <div class="cats-grid">
     @for (cat of cats; track cat.id) {
       <div class="cat-card">
-        <!-- Foto del gatto -->
-        <img [src]="restService.mediaUrl + cat.photo" [alt]="cat.title" class="cat-photo" />
 
-        <!-- Info del gatto -->
+        <img [src]="restService.mediaUrl + cat.photo" [alt]="cat.title" class="cat-photo" [routerLink]="['/cats', cat.id]"/>
         <div class="cat-info">
-          <!-- Titolo / nome del gatto -->
           <h3 class="cat-title">{{ cat.title }}</h3>
-
-          <!-- Coordinate e data di inserimento -->
           <p class="cat-meta">
             📍 <strong>{{ cat.latitudine }}, {{ cat.longitudine }}</strong><br />
             🕒 <em>{{ cat.createdAt | date:'dd/MM/yyyy' }}</em>
           </p>
-
-          <!-- Utente che ha segnalato -->
           <p class="cat-user">
             Segnalato da: <strong>{{ cat.userName }}</strong>
           </p>
@@ -32,7 +32,9 @@
   }
   </div>
 </div>
-}@else {
+}
+
+@if (loading == "error") {
   <div style="text-align: center; margin-top: 20px;">
     <p>Nessun gatto da visualizzare</p>
   </div>

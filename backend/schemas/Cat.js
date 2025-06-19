@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createCatSchema = z.object({
+export const CatSchema = z.object({
   photo: z.string().nonempty("Il campo photo non può essere vuoto"), // È equivalente a .min(1), ma è più leggibile per il caso specifico della stringa vuota
   
   // se arrivano come stringhe, usa z.coerce per forzare la trasformazione in number
@@ -16,6 +16,8 @@ export const createCatSchema = z.object({
       message: "latitudine fuori dai limiti (-90,90)",
     }),
 
-  title: z.string().min(1, "title non può essere vuoto"), // Valida che title sia una stringa non vuota
+  title: z.string().min(1, "Il titolo non può essere vuoto"), // Valida che title sia una stringa non vuota
+
+  description: z.string().min(1, "La descrizione non può essere vuoto"),
 });
 // export type CreateCatInput = z.infer<typeof createCatSchema>; // tipo TypeScript basato automaticamente sullo schema Zod

@@ -5,13 +5,19 @@ import { routes } from './app.routes';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { authInterceptor } from './_interceptors/auth-interceptor-interceptor';
+import { provideMarkdown }      from 'ngx-markdown';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideMarkdown(),
     provideAnimations(),
     provideToastr({
+      positionClass: 'toast-bottom-right',
       progressBar: true,
       newestOnTop: true,
+      preventDuplicates: true,
+      countDuplicates: true,
+      resetTimeoutOnDuplicate: true,
     }),
     provideRouter(routes, withDebugTracing()),
     provideHttpClient(

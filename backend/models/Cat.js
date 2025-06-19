@@ -21,7 +21,12 @@ export function createModel(database){
     },
     title: {
       type: DataTypes.STRING,
-    }
+      allowNull: false
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
     //by default, Sequelize adds the createdAt and updatedAt fields to all models
   });
   

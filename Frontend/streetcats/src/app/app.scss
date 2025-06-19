@@ -1,14 +1,16 @@
-$font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+@use 'sass:color';
+@use '../styles.scss' as *;
 
 // Colori tema chiaro
 $light-primary: #333333;
 $light-secondary: #ffffff;
 $light-accent: #f39c12;
 
-$light-card-bg: #fafafa;
-$light-card-shadow: rgba(0, 0, 0, 0.1);
+$light-card-bg: #ffffff;
+$light-card-shadow: rgba(0, 0, 0, 0.4);
 $light-background: #ffffff;
 $light-text-muted: #666666;
+$light-text-error: red;
 
 // Colori tema scuro
 $dark-primary: #ffffff;
@@ -19,6 +21,7 @@ $dark-card-bg: #2d2d2d;
 $dark-card-shadow: rgba(0, 0, 0, 0.3);
 $dark-background: #121212;
 $dark-text-muted: #b0b0b0;
+$dark-text-error: #fd4343;
 
 $breakpoint-mobile: 768px;
 
@@ -32,7 +35,8 @@ $breakpoint-mobile: 768px;
   --card-bg: #{$light-card-bg};
   --card-shadow: #{$light-card-shadow};
   --text-muted: #{$light-text-muted};
-  --hover-color: #{darken($light-accent, 10%)};
+  --hover-color: #{color.adjust($light-accent, $lightness: +10%)};
+  --error-color: #{$light-text-error};
 }
 
 // Tema chiaro
@@ -44,7 +48,8 @@ $breakpoint-mobile: 768px;
   --card-bg: #{$light-card-bg};
   --card-shadow: #{$light-card-shadow};
   --text-muted: #{$light-text-muted};
-  --hover-color: #{darken($light-accent, 10%)};
+  --hover-color: #{color.adjust($light-accent, $lightness: +10%)};
+  --error-color: #{$light-text-error};
 }
 
 // Tema scuro
@@ -56,11 +61,11 @@ $breakpoint-mobile: 768px;
   --card-bg: #{$dark-card-bg};
   --card-shadow: #{$dark-card-shadow};
   --text-muted: #{$dark-text-muted};
-  --hover-color: #{lighten($dark-accent, 10%)};
+  --hover-color: #{color.adjust($dark-accent, $lightness: -10%)};
+  --error-color: #{$dark-text-error};
 }
 
 body {
-    font-family: var(--font-family);
     background-color: var(--background);
     color: var(--primary-color);
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -70,7 +75,6 @@ body {
     height: 100%;
     background-color: var(--background);
     color: var(--primary-color);
-    font-family: var(--font-family);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -78,11 +82,16 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+#inner-main{
+  height: 100%;
+  background-color: #fd4343;
+}
+
 // Stili per il pulsante di toggle tema
 .theme-toggle-btn {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    left: 20px;
     padding: 12px 16px;
     border: none;
     border-radius: 50px;
