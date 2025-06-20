@@ -7,6 +7,11 @@
   margin-right: 10px;
 }
 
+#cats-page{
+  height: 100vh;
+  background-color: var(--background);
+}
+
 .cats-container {
   padding: 2rem;
   font-family: var(--font-family);
@@ -25,8 +30,12 @@
   // Griglia di card
   .cats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    flex-wrap: wrap; // The flex items break into multiple lines. The cross-start is the equivalent of inline-start or block-start, depending on the current writing mode, and the flex-direction value.
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); // Ripeti questa colonna tante volte quante ne entrano, adattandoti allo spazio disponibile." auto-fit: cerca di inserire più colonne possibili, collassando quelle vuote se non ci sono abbastanza elementi. // auto-fill non rioempie le restanit con spazio vuoto
+    justify-content: flex-start;
+    align-items: stretch;
     gap: 1.5rem;
+    padding: 1rem;
   }
 
   // Card singola
@@ -34,7 +43,10 @@
     background-color: var(--card-bg);
     border-radius: 0.5rem;
     box-shadow: 0 2px 8px var(--card-shadow);
-    max-width: fit-content;
+    // max-width: 200px;
+    // aspect-ratio: 2 / 3;
+    flex: 1 1 220px; // cresce, si riduce, base 220px
+    max-width: 300px; // limite superiore (optional)
     overflow: hidden;
     display: flex;
     flex-direction: column;

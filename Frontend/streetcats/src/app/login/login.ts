@@ -47,9 +47,6 @@ export class Login {
         error: (err) => {
           this.toastr.error("Please, insert a valid username and password", "Oops! Invalid credentials");
         },
-        complete: () => {
-          
-        }
       })
     }
   }

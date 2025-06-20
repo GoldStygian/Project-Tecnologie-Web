@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpEvent, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Cat } from '../../models/Cat.type';
+import { Comment } from '../../models/Comment.type'
 
+export interface AuthRequest {
+  usr: string, 
+  pwd: string
+}
 
 @Injectable({
   providedIn: 'root'
@@ -39,33 +43,9 @@ export class RestBackendService {
     return this.http.post<Cat>(url, data);
   }
 
-  // getArtist(uuid: string) {
-  //   const url = `${this.url}/artists/${uuid}`; 
-  //   return this.http.get<Artist>(url, this.httpOptions);
-  // }
+  addComment(content: String, catId: number){
+    const url = `${this.url}/cats/${catId}/comments`; 
+    return this.http.post<Comment>(url, {content});
+  }
 
-  // getTracks(){
-  //   const url = `${this.url}/tracks`; 
-  //   return this.http.get<Track[]>(url, this.httpOptions);
-  // }
-
-  // uploadTracks(files: File[], variant: boolean): Observable<HttpEvent<any>> {
-  //   const url = `${this.url}/tracks/`; 
-  //   const formData = new FormData();
-  //   // Aggiungo ogni file con chiave 'files'
-  //   files.forEach(file => formData.append('files', file, file.name));
-  //   // Aggiungo il parametro variant
-  //   formData.append('variant', variant ? 'true' : 'false');
-
-  //   const req = new HttpRequest('POST', url, formData, {
-  //     reportProgress: true,
-  //   });
-  //   return this.http.request(req);
-  // }
-
-}
-
-export interface AuthRequest {
-  usr: string, 
-  pwd: string
 }

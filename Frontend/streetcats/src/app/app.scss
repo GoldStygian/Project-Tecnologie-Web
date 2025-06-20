@@ -6,7 +6,7 @@ $light-primary: #333333;
 $light-secondary: #ffffff;
 $light-accent: #f39c12;
 
-$light-card-bg: #ffffff;
+$light-card-bg: #efefef;
 $light-card-shadow: rgba(0, 0, 0, 0.4);
 $light-background: #ffffff;
 $light-text-muted: #666666;
@@ -80,11 +80,12 @@ body {
     z-index: 1000;
     box-shadow: 0 2px 5px var(--card-shadow);
     transition: background-color 0.3s ease, color 0.3s ease;
-}
 
-#inner-main{
-  height: 100%;
-  background-color: #fd4343;
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
 }
 
 // Stili per il pulsante di toggle tema

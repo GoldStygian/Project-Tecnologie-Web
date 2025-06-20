@@ -1,41 +1,43 @@
-<div id="map"></div>
+<div id="cats-page">
+  <div id="map"></div>
 
-@if (loading == "loading") {
- <app-loading></app-loading>
-}
-
-@if (loading == "loaded") {
-<div class="cats-container">
-
-  @if (cats.length == 0) {
-    <h2 class="section-title">Nessun gatto registrato</h2>
-  }@else {
-    <h2 class="section-title">Esplora i nostri amici felini</h2>
+  @if (loading == "loading") {
+  <app-loading></app-loading>
   }
 
-  <div class="cats-grid">
-    @for (cat of cats; track cat.id) {
-      <div class="cat-card">
+  @if (loading == "loaded") {
+  <div class="cats-container">
 
-        <img [src]="restService.mediaUrl + cat.photo" [alt]="cat.title" class="cat-photo" [routerLink]="['/cats', cat.id]"/>
-        <div class="cat-info">
-          <h3 class="cat-title">{{ cat.title }}</h3>
-          <p class="cat-meta">
-            📍 <strong>{{ cat.latitudine }}, {{ cat.longitudine }}</strong><br />
-            🕒 <em>{{ cat.createdAt | date:'dd/MM/yyyy' }}</em>
-          </p>
-          <p class="cat-user">
-            Segnalato da: <strong>{{ cat.userName }}</strong>
-          </p>
+    @if (cats.length == 0) {
+      <h2 class="section-title">Nessun gatto registrato</h2>
+    }@else {
+      <h2 class="section-title">Esplora i nostri amici felini</h2>
+    }
+
+    <div class="cats-grid">
+      @for (cat of cats; track cat.id) {
+        <div class="cat-card">
+
+          <img [src]="restService.mediaUrl + cat.photo" [alt]="cat.title" class="cat-photo" [routerLink]="['/cats', cat.id]"/>
+          <div class="cat-info">
+            <h3 class="cat-title">{{ cat.title }}</h3>
+            <p class="cat-meta">
+              📍 <strong>{{ cat.latitudine }}, {{ cat.longitudine }}</strong><br />
+              🕒 <em>{{ cat.createdAt | date:'dd/MM/yyyy' }}</em>
+            </p>
+            <p class="cat-user">
+              Segnalato da: <strong>{{ cat.userName }}</strong>
+            </p>
+          </div>
         </div>
-      </div>
+    }
+    </div>
+  </div>
   }
-  </div>
-</div>
-}
 
-@if (loading == "error") {
-  <div style="text-align: center; margin-top: 20px;">
-    <p>Nessun gatto da visualizzare</p>
-  </div>
-}
+  @if (loading == "error") {
+    <div style="text-align: center; margin-top: 20px;">
+      <p>Nessun gatto da visualizzare</p>
+    </div>
+  }
+</div>

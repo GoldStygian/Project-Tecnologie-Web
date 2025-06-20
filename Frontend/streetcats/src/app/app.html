@@ -1,6 +1,6 @@
 <div id="main" [class.dark-theme]="themeManager.isDark" [class.light-theme]="!themeManager.isDark">
   <app-navbar class="sticky top-0"/>
-  <main class="container mx-auto flex-grow">
+  <main class="container">
     <router-outlet></router-outlet>
     <button class="theme-toggle-btn" (click)="toggleTheme()">{{ themeManager.isDark ? '🌞 Tema Chiaro' : '🌙 Tema Scuro' }}</button>
   </main>

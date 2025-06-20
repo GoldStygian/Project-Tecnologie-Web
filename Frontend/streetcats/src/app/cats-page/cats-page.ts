@@ -55,14 +55,11 @@ export class CatsPage implements OnInit {
       shadowUrl: 'leaflet/marker-shadow.png'
     });
 
-    // 1. Crea la mappa nel div #map, centrata su Napoli
     const map = L.map('map').setView([40, 14], 5);
 
-    // 2. Aggiungi layer di OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     }).addTo(map);
 
-    // Puoi aggiungere marker, popup, ecc.
     for (const cat of this.cats) {
       const lat = Number(cat.latitudine);
       const lng = Number(cat.longitudine);

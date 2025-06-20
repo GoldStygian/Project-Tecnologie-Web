@@ -67,10 +67,8 @@ catRouter.post("/:id/comments", authorization.enforceAuthentication, (req, res, 
   // userName by JWT
   // JWT assicurato by middleware
   // ID by slug
-  console.log("[d now]", req.body);
   CatController.addComment(req.params.id, req.body.content, req.username)
     .then(comment => {
-      console.log("[d now]", comment);
       if (!comment) { return next({status: 404, message: "Cat not found"}) };
       res.status(201).json(comment);
     })

@@ -1,16 +1,59 @@
-<div>
-@if (loading == "loading"){
-    <p>loading</p>
-    <app-loading></app-loading>
-}@else if (loading == "loaded"){
-    <p>Cat ID: {{ cat.id }}</p>
-    <p>{{cat.title}} </p>
-    <img [src]="restService.mediaUrl + cat.photo">
-    @for (comment of cat.Comments; track comment) {
-    <div class="comment">
-        <p>{{ comment.content }}</p>
-        <p>By: {{ comment.userName }}</p>
+<div class="cat-detail-card">
+  @if (loading == "loading"){
+    <app-loading class="loading-overlay"></app-loading>
+  }
+  @if (loading == "loaded"){
+
+    <div class="cat-header">
+      <h2 class="cat-title">{{ cat.title }}</h2>
+      <p class="cat-date">Creato il: {{ cat.createdAt }}</p>
     </div>
-    }
-}
+
+    <div class="cat-content">
+      <div id="img-map">
+        <img
+          class="cat-photo"
+          [src]="restService.mediaUrl + cat.photo"
+          alt="Photo of {{ cat.title }}"
+        />
+        <div id="map3"></div>
+      </div>
+
+      <div class="cat-info">
+        <p class="cat-user"><strong>Riportato da:</strong> {{ cat.userName }}</p>
+        <p class="cat-coords"><strong>Coordinate:</strong>
+          {{ cat.latitudine }}, {{ cat.longitudine }}
+        </p>
+        <p><strong>Descrizione:</strong></p>
+        <markdown class="cat-description" [data]="cat.description"></markdown>
+      </div>
+    </div>
+
+    
+    <section class="comments-section">
+      <h3>Commenti ({{ cat.Comments?.length || 0 }}):</h3>
+      @for (comment of cat.Comments; track comment){
+        <div class="comment">
+            <p class="comment-content">"{{ comment.content }}"</p>
+            <p class="comment-meta">
+              By <em>{{ comment.userName }}</em>
+              on {{ comment.createdAt }}
+            </p>
+        </div>
+      }
+      @if(!showCommentForm){
+        <button class="comment-button" style="margin: 5px 5px;" (click)="toggleCommentBtn()">Aggiungi commento</button>
+      }
+      @if (showCommentForm){
+        <form class="comment" [formGroup]="commentForm" (ngSubmit)="handleAddComment()">
+          <input type="text" class="comment-content" formControlName="content" placeholder="Scrivi un commento... (max 250)">
+          <div class="comment-actions">
+            <button type="submit" class="comment-button btn-confirm">Conferma</button>
+            <button type="button" class="comment-button btn-cancel" (click)="cancelComment()">Annulla</button>
+          </div>
+        </form>
+      }
+    </section>
+  }
+
 </div>
