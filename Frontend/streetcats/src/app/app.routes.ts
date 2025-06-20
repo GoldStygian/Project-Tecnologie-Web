@@ -5,6 +5,7 @@ import { Login } from './login/login';
 import { AddCat } from './add-cat/add-cat';
 import { CatDetailPage } from './cat-detail-page/cat-detail-page';
 import { Signup } from './signup/signup';
+import { Whoiam } from './whoiam/whoiam';
 
 export const routes: Routes = [
     {
@@ -37,5 +38,10 @@ export const routes: Routes = [
         path: "signup",
         component: Signup,
         title: "Signup | Street Cats",
+    },
+    {
+        path: "about",
+        component: Whoiam,
+        title: "Who I Am | Street Cats"
     }
 ];

@@ -8,6 +8,10 @@ h1{
     color: var(--accent-color);
 }
 
+.error-form{
+    color: var(--error-color);
+}
+
 #add-cat-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -21,7 +25,6 @@ h1{
         background: var(--card-bg);
         padding: 2%;
         border-radius: 8px;
-        box-shadow: 0px 0px 5px var(--accent-color);
     }
 
     .field {
@@ -78,7 +81,6 @@ h1{
 
     #map2 {
         // height: 50vh;
-        box-shadow: 0px 0px 5px var(--accent-color);
         border-radius: 8px;
     }
 

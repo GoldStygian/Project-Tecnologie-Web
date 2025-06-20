@@ -1,4 +1,4 @@
-# Introsuzione
+# Introduzione
 STREETCATS una piattaforma web dedicata alla condivisione di avvistamenti di 
 gatti randagi. Gli utenti registrati potranno inserire nuovi gatti nel sistema, caricando una fotografia, 
 indicando la posizione geografica tramite una mappa interattiva, e aggiungendo un titolo e una 
@@ -17,6 +17,8 @@ ai felini avvistati.
 
 - signup
 - zod per login e signup
+- https
+- xss
 
 # Frontend (Angular)
 
@@ -58,6 +60,8 @@ ai felini avvistati.
 
 ### Controlli effettuati
 
+- [ ] signup
+- [ ] login
 - [x] Cat
 - [x] Comemnti
 
@@ -68,3 +72,7 @@ ai felini avvistati.
 `const payload = { ...req.body, photo };`
 1) Espande (...) tutte le proprietà di req.body dentro un nuovo oggetto.
 2) Aggiunge (o sovrascrive, se già presente) la proprietà photo con il valore della variabile photo.
+
+openssl genrsa -out key.pem 2048
+openssl req -new -key key.pem -out csr.pem
+openssl x509 -req -days 365 -in csr.pem -signkey key.pem -out cert.pem

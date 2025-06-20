@@ -1,1 +1,37 @@
-<p>signup works!</p>
+<section>
+  <div>
+    <h1>
+      Registra il tuo account
+    </h1>
+    <form [formGroup]="signupForm" (ngSubmit)="handleSignup()">
+      <div>
+        <label for="user">Your username</label>
+        <input type="text" formControlName="user" id="user" placeholder="Your username" required="">
+        @if(submitted && signupForm.controls.user.errors){
+          @if(signupForm.controls.user.errors['required']){
+            <p class="error-form">Username obbligatorio</p>
+          }
+        }
+      </div>
+      <div>
+        <label for="pass">Password</label>
+        <input type="password" formControlName="pass" id="pass" placeholder="••••••••" required="">
+        @if(submitted && signupForm.controls.pass.errors){
+          @if(signupForm.controls.pass.errors['required']){
+            <p class="error-form" >Password obbligatoria</p>
+          }
+          @if(signupForm.controls.pass.errors['minlength']){
+            <p class="error-form" >La password deve avere minimo 4 caratteri</p>
+          }
+          @if(signupForm.controls.pass.errors['maxlength']){
+            <p class="error-form" >La password deve avere massimo 16 caratteri</p>
+          }
+        }
+      </div>
+      <button type="submit">Sign in</button>
+      <p>
+        Hai gia un account? <a routerLink="/login">Log in</a>
+      </p>
+    </form>
+  </div>
+</section>

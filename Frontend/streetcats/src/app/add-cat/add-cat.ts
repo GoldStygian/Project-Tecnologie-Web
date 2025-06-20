@@ -22,11 +22,12 @@ export class AddCat implements AfterViewInit {
   router = inject(Router);
   restService = inject(RestBackendService);
   editor!: Editor;
+  submitted = false;
 
   catForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
-    longitudine: new FormControl('', [Validators.required]),
-    latitudine: new FormControl('', [Validators.required]),
+    longitudine: new FormControl('', [Validators.required, Validators.min(-180), Validators.max(180)]),
+    latitudine: new FormControl('', [Validators.required,Validators.min(-90), Validators.max(90)]),
     description: new FormControl('# Descrizione in formato markdown', [Validators.required])
   });
   selectedFile!: File;
@@ -85,7 +86,8 @@ export class AddCat implements AfterViewInit {
     }
   }
 
-  handleAddCat() {
+  handleAddCat(): void {
+    this.submitted = true;
     if (this.catForm.invalid) {
       this.toastr.error("Compila tutti i campi e seleziona un'immagine", "Form non valido");
       return;
@@ -104,7 +106,7 @@ export class AddCat implements AfterViewInit {
         this.router.navigateByUrl("/cats");
       },
       error: (err) => {
-        this.toastr.error("Failed to add cat", "Error");
+        this.toastr.error(err?.message, "Error");
       }
     });
   }

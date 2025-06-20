@@ -1,5 +1,6 @@
 import express from "express";
 import { AuthController } from "../controllers/AuthController.js";
+import { AuthSchema } from "../schemas/Auth.js"
 
 export const authenticationRouter = express.Router();
 
@@ -31,6 +32,14 @@ export const authenticationRouter = express.Router();
  *          description: Invalid credentials
  */
 authenticationRouter.post("/auth", async (req, res) => {
+
+  const parseResult = AuthSchema.safeParse({...req.body}); // con safe non genero errori
+
+  if (!parseResult.success) { // l'utente ha inviato dati non validi
+    const errors = parseResult.error.format();
+    return res.status(400).json({ message: "Dati non validi", errors });
+  }
+
   let isAuthenticated = await AuthController.checkCredentials(req, res);
   if(isAuthenticated){
     res.json(AuthController.issueToken(req.body.usr));

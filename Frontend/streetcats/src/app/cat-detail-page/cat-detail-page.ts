@@ -92,8 +92,10 @@ export class CatDetailPage implements OnInit {
       if(commentValue && this.cat.id){
         this.restService.addComment(commentValue, this.cat.id).subscribe({
           next: (comment) => {
+            console.log(comment)
             if(commentValue == comment.content){
               this.toastr.success("Commento pubblicato con successo");
+              this.cat.Comments?.push(comment);
             }else{
               this.toastr.error("Qualcosa è andato storto");
             }

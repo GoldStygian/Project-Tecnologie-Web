@@ -13,8 +13,8 @@ export interface AuthRequest {
 })
 export class RestBackendService {
 
-  url = "http://localhost:3000";
-  mediaUrl = "http://localhost:3000";
+  url = "https://localhost:3000";
+  mediaUrl = "https://localhost:3000";
   constructor(private http: HttpClient) {}
 
   httpOptions = {
@@ -26,6 +26,11 @@ export class RestBackendService {
   login(loginRequest: AuthRequest){
     const url = `${this.url}/auth`; 
     return this.http.post<string>(url, loginRequest, this.httpOptions);
+  }
+
+  signup(signupRequest: AuthRequest){
+    const url = `${this.url}/signup`; 
+    return this.http.post<string>(url, signupRequest, this.httpOptions);
   }
 
   getCats() {

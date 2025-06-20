@@ -1,7 +1,7 @@
 <section>
   <div>
     <h1>
-      Sign in to your account
+      Accedi al tuo account
     </h1>
     <form [formGroup]="loginForm" (ngSubmit)="handleLogin()">
       <div>
@@ -9,7 +9,7 @@
         <input type="text" formControlName="user" id="user" placeholder="Your username" required="">
         @if(submitted && loginForm.controls.user.errors){
           @if(loginForm.controls.user.errors['required']){
-            <p class="error-form">Username is required.</p>
+            <p class="error-form">Username obbligatorio</p>
           }
         }
       </div>
@@ -18,16 +18,19 @@
         <input type="password" formControlName="pass" id="pass" placeholder="••••••••" required="">
         @if(submitted && loginForm.controls.pass.errors){
           @if(loginForm.controls.pass.errors['required']){
-            <p class="error-form" >Password is required.</p>
+            <p class="error-form" >Password obbligatoria</p>
           }
           @if(loginForm.controls.pass.errors['minlength']){
-            <p class="error-form" >Password should contain at least 4 characters</p>
+            <p class="error-form" >La password deve avere minimo 4 caratteri</p>
+          }
+          @if(loginForm.controls.pass.errors['maxlength']){
+            <p class="error-form" >La password deve avere massimo 16 caratteri</p>
           }
         }
       </div>
       <button type="submit">Sign in</button>
       <p>
-        Don't have an account yet? <a routerLink="/signup">Sign up</a>
+        Non hai ancora un account? <a routerLink="/signup">Sign up</a>
       </p>
     </form>
   </div>

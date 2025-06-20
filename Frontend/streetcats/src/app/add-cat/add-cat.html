@@ -6,6 +6,11 @@
       <div class="field">
         <label for="title">Titolo</label>
         <input id="title" formControlName="title" placeholder="Inserisci il titolo" />
+        @if (submitted && catForm.controls.title.errors) {
+          @if (catForm.controls.title.errors['required']) {
+            <p class="error-form">Il titolo è obbligatorio</p>
+          }
+        }
       </div>
 
       <div class="field">
@@ -16,11 +21,33 @@
       <div class="coords">
         <div class="field small">
           <label for="longitudine">Longitudine</label>
-          <input id="longitudine" formControlName="longitudine" type="number" placeholder="es. 14.2681" />
+          <input   min="-180" max="180" id="longitudine" formControlName="longitudine" type="number" placeholder="es. 14.2681" />
+          @if (submitted && catForm.controls.longitudine.errors) {
+            @if (catForm.controls.longitudine.errors['required']) {
+              <p class="error-form">La longitudine è obbligatoria</p>
+            }
+            @if (catForm.controls.longitudine.errors['min']) {
+              <p class="error-form">La longitudine deve essere ≥ -180</p>
+            }
+            @if (catForm.controls.longitudine.errors['max']) {
+              <p class="error-form">La longitudine deve essere ≤ 180</p>
+            }
+          }
         </div>
         <div class="field small">
           <label for="latitudine">Latitudine</label>
-          <input id="latitudine" formControlName="latitudine" type="number" placeholder="es. 40.8518" />
+          <input min="-90" max="90" id="latitudine" formControlName="latitudine" type="number" placeholder="es. 40.8518" />
+          @if (submitted && catForm.controls.latitudine.errors) {
+            @if (catForm.controls.latitudine.errors['required']) {
+              <p class="error-form">La latitudine è obbligatoria</p>
+            }
+            @if (catForm.controls.latitudine.errors['min']) {
+              <p class="error-form">La latitudine deve essere ≥ -90</p>
+            }
+            @if (catForm.controls.latitudine.errors['max']) {
+              <p class="error-form">La latitudine deve essere ≤ 90</p>
+            }
+          }
         </div>
       </div>
       

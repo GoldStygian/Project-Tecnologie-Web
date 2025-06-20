@@ -96,7 +96,10 @@
 }
 
 .comment-content {
+  width: 100%;
   margin: 0 0 0.5rem;
+  display: block;
+  overflow-wrap: anywhere;
 }
 
 .comment-meta {
