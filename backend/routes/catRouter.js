@@ -1,8 +1,10 @@
 import express from "express";
 import * as authorization from "../middleware/authorization.js";
 import { CatController } from "../controllers/CatContoller.js"
-import { CatSchema } from "../schemas/Cat.js";
 import { upload } from "../middleware/upload.js";
+
+import { CatSchema } from "../schemas/Cat.js";
+import { CommentSchema } from "../schemas/Comment.js";
 
 export const catRouter = new express.Router();
 
@@ -67,7 +69,15 @@ catRouter.post("/:id/comments", authorization.enforceAuthentication, (req, res, 
   // userName by JWT
   // JWT assicurato by middleware
   // ID by slug
-  CatController.addComment(req.params.id, req.body.content, req.username)
+
+  const parseResult = CommentSchema.safeParse({...req.body});
+
+  if (!parseResult.success) {
+    const errors = parseResult.error.format();
+    return res.status(400).json({ message: "Dati non validi", errors });
+  }
+
+  CatController.addComment(req.params.id, parseResult.data.content, req.username)
     .then(comment => {
       if (!comment) { return next({status: 404, message: "Cat not found"}) };
       res.status(201).json(comment);
