@@ -16,6 +16,7 @@ ai felini avvistati.
 # TO-DO
 
 - signup
+- zod per login e signup
 
 # Frontend (Angular)
 
@@ -32,9 +33,21 @@ ai felini avvistati.
 ## Rendering testo MD (ngx-markdown)
 
 
-# Beckedn (Express)
+# Beckend (Express)
 
 ## API
+
+- auth
+    - POST[ok] # login
+- signup
+    - POST[ok]
+
+- cats 
+    - GET[ok] POST[ok]
+- cats/:id 
+    - GET[ok] PUT DELETE[ok]
+- cats/:id/comments
+    - POST[ok] DEL PUT
 
 ## Gestione delle immagini (Multer)
 

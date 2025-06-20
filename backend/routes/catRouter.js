@@ -8,10 +8,6 @@ import { CommentSchema } from "../schemas/Comment.js";
 
 export const catRouter = new express.Router();
 
-
-// cats GET[ok] POST[ok]
-// cats/:id GET[ok] PUT DELETE[ok]
-
 // tutti possono visualizzare i gatti
 catRouter.get("", (req, res, next) => {
   CatController.getAllCats().then(catItems => {
