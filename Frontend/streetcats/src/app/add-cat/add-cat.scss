@@ -1,30 +1,34 @@
 @use '../app.scss' as *;
 
-h1{
+h1 {
     text-align: center;
+    margin: 5px;
 }
 
 .accent {
     color: var(--accent-color);
 }
 
-.error-form{
+.error-form {
     color: var(--error-color);
+    font-size: 0.9rem; // Testo leggibile anche su schermi piccoli
 }
 
 #add-cat-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1%;
-    align-items: start;
-    padding: 2vw;
-    align-items: stretch; // If the items are smaller than the alignment container, auto-sized items will be equally enlarged to fill the container, respecting the items' width and height limits.
+    grid-template-columns: 1fr 1fr; // Due colonne per desktop
+    gap: 2vw; // Gap relativo per scalabilità
+    padding: 2vw; // Padding relativo
+    align-items: stretch;
+    // max-width: 1200px; // Limite massimo per schermi grandi
+    margin: 0 auto; // Centratura
 
     .form-container {
-        // height: 50vh;
         background: var(--card-bg);
-        padding: 2%;
+        padding: 2vw; // Padding relativo
         border-radius: 8px;
+        display: flex;
+        flex-direction: column;
     }
 
     .field {
@@ -39,11 +43,13 @@ h1{
         }
 
         input {
-            padding: 1%;
+            padding: 1%; // Padding relativo
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 1rem;
             transition: border-color 0.2s;
+            width: 100%; // Input a larghezza piena
+            box-sizing: border-box; // Include padding nella larghezza
 
             &:focus {
                 outline: none;
@@ -54,14 +60,14 @@ h1{
 
     .coords {
         display: flex;
-        gap: 1%;
+        gap: 1vw; // Gap relativo
 
         .small {
-            flex: 1;
+            flex: 1; // Distribuzione uniforme dello spazio
         }
     }
 
-    .btn-submit { // da omologare
+    .btn-submit {
         display: inline-block;
         padding: 0.75rem 1.5rem;
         background-color: var(--accent-color);
@@ -71,22 +77,69 @@ h1{
         font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
-        transition: background-color 0.2s;
+        transition: background-color 0.2s, transform 0.2s;
 
         &:hover {
-            scale: 1.05;
             background-color: var(--hover-color);
+            transform: scale(1.05); // Effetto hover
+        }
+
+        &:active {
+            transform: scale(0.98); // Feedback per touch
         }
     }
 
     #map2 {
-        // height: 50vh;
         border-radius: 8px;
+        width: 100%; // Larghezza piena
+        height: 100%; // Altezza adattabile al contenitore
     }
 
-    @media (max-width: $breakpoint-mobile) {
-        #add-cat-container {
-            grid-template-columns: 1fr;
+    // Mobile (max-width: 600px)
+    @media (max-width: 1200px) {
+        display: flex;
+        flex-direction: column; // Stack verticale
+        align-items: center;
+        padding: 2%;
+        gap: 1rem;
+
+        .form-container {
+            padding: 1rem;
+            width: 90%;
+        }
+
+        .coords {
+            flex-direction: column; // Coordinate impilate
+            gap: 0.5rem;
+        }
+
+        .btn-submit {
+            width: 100%; // Pulsante a larghezza piena
+        }
+
+        #map2 {
+            height: 250px; // Altezza fissa per mobile
+            width: 90%;
         }
     }
+
+    // Tablet (max-width: 900px e min-width: 601px)
+    // @media (max-width: 900px) and (min-width: 601px) {
+    //     grid-template-columns: 1fr; // Una colonna
+    //     padding: 1.5rem;
+    //     gap: 1.5rem;
+
+    //     #map2 {
+    //         height: 300px; // Altezza fissa per tablet
+    //     }
+    // }
+
+    // Desktop (min-width: 901px)
+    // @media (min-width: 901px) {
+    //     grid-template-columns: 1fr 1fr; // Due colonne
+
+    //     #map2 {
+    //         height: 450px; // Altezza fissa per desktop
+    //     }
+    // }
 }

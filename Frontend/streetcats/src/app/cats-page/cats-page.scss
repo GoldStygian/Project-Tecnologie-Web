@@ -31,7 +31,7 @@
   .cats-grid {
     display: grid;
     flex-wrap: wrap; // The flex items break into multiple lines. The cross-start is the equivalent of inline-start or block-start, depending on the current writing mode, and the flex-direction value.
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); // Ripeti questa colonna tante volte quante ne entrano, adattandoti allo spazio disponibile." auto-fit: cerca di inserire più colonne possibili, collassando quelle vuote se non ci sono abbastanza elementi. // auto-fill non rioempie le restanit con spazio vuoto
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); // Ripeti questa colonna tante volte quante ne entrano, adattandoti allo spazio disponibile." auto-fit: cerca di inserire più colonne possibili, collassando quelle vuote se non ci sono abbastanza elementi. // auto-fill non rioempie le restanit con spazio vuoto
     justify-content: flex-start;
     align-items: stretch;
     gap: 1.5rem;
