@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend/uploads:/app/backend/uploads
+      - ./backend/database.db:/app/backend/database.db
+    restart: always
+
+  frontend:
+    build: ./Frontend/streetcats
+    ports:
+      - "4200:4200"
+    restart: always

@@ -1,6 +1,6 @@
 @echo off
 REM Avvia il frontend con Angular
-start cmd /k "cd /d %~dp0Frontend\streetcats && ng serve --ssl true --ssl-key ./src/app/_utils/cert/key.pem --ssl-cert ./src/app/_utils/cert/cert.pem"
+start cmd /k "cd /d %~dp0Frontend\streetcats && ng serve"
 
 REM Avvia il backend con Node
 start cmd /k "cd /d %~dp0backend && npm start"
