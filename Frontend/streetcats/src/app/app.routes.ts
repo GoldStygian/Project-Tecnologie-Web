@@ -6,6 +6,7 @@ import { AddCat } from './add-cat/add-cat';
 import { CatDetailPage } from './cat-detail-page/cat-detail-page';
 import { Signup } from './signup/signup';
 import { Whoiam } from './whoiam/whoiam';
+import { MyCats } from './my-cats/my-cats';
 
 export const routes: Routes = [
     {
@@ -37,7 +38,13 @@ export const routes: Routes = [
     {
         path: "signup",
         component: Signup,
-        title: "Signup | Street Cats",
+        title: "Signup | Street Cats"
+    },
+    {
+        path: "mycats",
+        component: MyCats,
+        title: "My Cats | Street Cats",
+        canActivate: [authGuard]
     },
     {
         path: "about",

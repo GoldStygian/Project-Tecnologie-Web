@@ -1,0 +1,24 @@
+<div class="mycats-container">
+    @if(cats.length == 0){
+        <h1 class="mycats-title">Nessun gatto registrato</h1>
+    }@else {
+        <h1 class="mycats-title">I Miei Gatti</h1>
+        <div class="cats-list">
+            @for(cat of cats; track cat.id){
+                <div class="cat-card">
+                <img
+                    class="cat-thumb"
+                    [src]="restService.mediaUrl + cat.photo"
+                    alt="Foto di {{ cat.title }}"
+                    [routerLink]="['/cats', cat.id]" />
+                <div class="cat-details">
+                    <h2>{{ cat.title }}</h2>
+                    <!-- <p class="cat-info"><strong>Età:</strong> {{ cat.age || 'N/A' }}</p> -->
+                    <p class="cat-info"><strong>Creato il:</strong> {{ cat.createdAt }}</p>
+                    <button class="btn-del" (click)="delCat(cat.id!)" >Elimina</button>
+                </div>
+                </div>
+            }
+        </div>
+    }
+</div>

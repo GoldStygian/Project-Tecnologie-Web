@@ -15,14 +15,24 @@ export const catRouter = new express.Router();
  *   get:
  *     summary: Lista di tutti i gatti registrati
  *     tags: [Cats]
+ *     parameters:
+ *       - in: query
+ *         name: username
+ *         schema:
+ *           type: string
+ *         description: Filtra i gatti per nome utente proprietario
+ *         required: false
  *     responses:
  *       200:
- *         description: Lista di tutti i gatti registrati
+ *         description: Lista di tutti i gatti registrati (eventualmente filtrati)
  */
 
 // tutti possono visualizzare i gatti
 catRouter.get("", (req, res, next) => {
-  CatController.getAllCats().then(catItems => {
+
+  const username = req.query.username;
+
+  CatController.getAllCats(username).then(catItems => {
     res.json(catItems)
   }).catch(err => {
     next(err);
@@ -73,7 +83,7 @@ catRouter.post("", authorization.enforceAuthentication, upload.single('immagine'
     ])
   );
 
-  sanitizedBody.photo = `/upload/${req.file.filename}`;
+  sanitizedBody.photo = `/uploads/${req.file.filename}`;
   // const photo = `/upload/${req.file.filename}`;
 
   // const payload = {...req.body, photo}
@@ -112,9 +122,10 @@ catRouter.post("", authorization.enforceAuthentication, upload.single('immagine'
  */
 
 catRouter.delete("/:id", authorization.enforceAuthentication, authorization.ensureUsersModifyOnlyOwnCats, (req, res, next) => {
+
   CatController.delCat(req.params.id)
   .then(delRow => {
-        if (delRow <= 0) {
+        if (delRow!=null && delRow <= 0) {
           return res.status(404).json({ message: "Nessun gatto trovato da eliminare." });
         }
         return res.status(200).json({ message: "Gatto eliminato con successo." });

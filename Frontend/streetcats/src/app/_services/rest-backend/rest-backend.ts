@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Cat } from '../../models/Cat.type';
 import { Comment } from '../../models/Comment.type'
 
@@ -38,9 +38,20 @@ export class RestBackendService {
     return this.http.get<Cat[]>(url, this.httpOptions);
   }
 
+  getOwnCats(username: string){
+    const url = `${this.url}/cats`;
+    const params = new HttpParams().set('username', username);
+    return this.http.get<Cat[]>(url, { headers: this.httpOptions.headers,   params });
+  }
+
   getCat(id: string) {
     const url = `${this.url}/cats/${id}`; 
     return this.http.get<Cat>(url, this.httpOptions);
+  }
+
+  delCat(catId: number){
+    const url = `${this.url}/cats/${catId}`; 
+    return this.http.delete<{ message: string}>(url, this.httpOptions);
   }
 
   addCat(data: FormData) {

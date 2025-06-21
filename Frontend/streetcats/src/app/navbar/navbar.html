@@ -14,6 +14,9 @@
           <a routerLink="/add-cat" routerLinkActive="active" class="nav-link">Aggiungi Gatto</a>
         </li>
         <li class="nav-item">
+          <a routerLink="mycats" routerLinkActive="active" class="nav-link">I miei gatti</a>
+        </li>
+        <li class="nav-item">
           <a (click)="authService.logout()" class="nav-link">Logout</a>
         </li>
       } @else {
