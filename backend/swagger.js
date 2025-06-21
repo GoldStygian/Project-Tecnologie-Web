@@ -1,20 +1,27 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 
-swaggerUI.defaults = {
-  // eventuali default per swaggerUI, se ti servono
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Cat API',
+    version: '1.0.0',
+    description: 'API per StreetCats',
+  },
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+    },
+  },
 };
 
 const options = {
-  definition: {
-    openapi: '3.1.0',
-    info: {
-      title: 'STREETCATS API',
-      version: '1.0.0',
-      description: 'API per la condivisione avvistamenti di gatti randagi'
-    },
-  },
-  apis: ['./routes/*.js']
+  swaggerDefinition,
+  apis: ['./routes/*.js'], // Percorso ai file con commenti JSDoc
 };
 
 const swaggerSpec = swaggerJSDoc(options);

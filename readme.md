@@ -15,10 +15,11 @@ ai felini avvistati.
 
 # TO-DO
 
-- signup
-- zod per login e signup
-- https
-- xss
+- documentazione swagger
+- per mobile
+- documentazione
+- docker + readme per esecuzione
+- E2E
 
 # Frontend (Angular)
 
@@ -41,13 +42,16 @@ ai felini avvistati.
 
 - auth
     - POST[ok] # login
+
 - signup
     - POST[ok]
 
 - cats 
     - GET[ok] POST[ok]
+
 - cats/:id 
     - GET[ok] PUT DELETE[ok]
+
 - cats/:id/comments
     - POST[ok] DEL PUT
 
@@ -60,10 +64,15 @@ ai felini avvistati.
 
 ### Controlli effettuati
 
-- [ ] signup
-- [ ] login
+- [x] signup
+- [x] login
 - [x] Cat
 - [x] Comemnti
+
+# Security
+
+- [x] https
+- [x] sanificazione input
 
 # NOTE
 

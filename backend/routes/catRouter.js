@@ -1,4 +1,5 @@
 import express from "express";
+import sanitizeHtml from 'sanitize-html';
 import * as authorization from "../middleware/authorization.js";
 import { CatController } from "../controllers/CatContoller.js"
 import { upload } from "../middleware/upload.js";
@@ -7,6 +8,17 @@ import { CatSchema } from "../schemas/Cat.js";
 import { CommentSchema } from "../schemas/Comment.js";
 
 export const catRouter = new express.Router();
+
+/**
+ * @swagger
+ * /cats:
+ *   get:
+ *     summary: Lista di tutti i gatti registrati
+ *     tags: [Cats]
+ *     responses:
+ *       200:
+ *         description: Lista di tutti i gatti registrati
+ */
 
 // tutti possono visualizzare i gatti
 catRouter.get("", (req, res, next) => {
@@ -17,17 +29,56 @@ catRouter.get("", (req, res, next) => {
   });
 });
 
+/**
+ * @swagger
+ * /cats:
+ *   post:
+ *     summary: Aggiungi un nuovo gatto
+ *     tags: [Cats]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               age:
+ *                 type: integer
+ *               breed:
+ *                 type: string
+ *               immagine:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Gatto Aggiunto
+ *       400:
+ *         description: Input non valido
+ */
+
 catRouter.post("", authorization.enforceAuthentication, upload.single('immagine'), (req, res, next) => { // OK
 
   if (req.file && !req.file.mimetype.startsWith("image/")) {
     return res.status(400).json({ message: "Il file caricato non è un'immagine valida." });
   }
 
-  const photo = `/upload/${req.file.filename}`;
+  const sanitizedBody = Object.fromEntries(
+    Object.entries(req.body).map(([key, value]) => [
+      key,
+      typeof value === 'string' ? sanitizeHtml(value) : value
+    ])
+  );
 
-  const payload = {...req.body, photo}
+  sanitizedBody.photo = `/upload/${req.file.filename}`;
+  // const photo = `/upload/${req.file.filename}`;
 
-  const parseResult = CatSchema.safeParse(payload); // con safe non genero errori
+  // const payload = {...req.body, photo}
+
+  const parseResult = CatSchema.safeParse(sanitizedBody); // con safe non genero errori
 
   if (!parseResult.success) { // l'utente ha inviato dati non validi
     const errors = parseResult.error.format();
@@ -38,6 +89,27 @@ catRouter.post("", authorization.enforceAuthentication, upload.single('immagine'
     .then(newCat => { res.json(newCat)})
     .catch(err => next(err));
 });
+
+/**
+ * @swagger
+ * /api/cats/{id}:
+ *   delete:
+ *     summary: Delete a cat by ID
+ *     tags: [Cats]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Cat deleted
+ *       404:
+ *         description: Cat not found
+ */
 
 catRouter.delete("/:id", authorization.enforceAuthentication, authorization.ensureUsersModifyOnlyOwnCats, (req, res, next) => {
   CatController.delCat(req.params.id)
@@ -50,6 +122,25 @@ catRouter.delete("/:id", authorization.enforceAuthentication, authorization.ensu
   .catch(next); // Inoltra l'errore al middleware di errore
 });
 
+/**
+ * @swagger
+ * /cats/{id}:
+ *   get:
+ *     summary: Get a specific cat by ID
+ *     tags: [Cats]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Cat found
+ *       404:
+ *         description: Cat not found
+ */
+
 // tutti possono visualizzare gatti specifici
 catRouter.get("/:id", (req, res, next) => {
   CatController.getSpecificCat(req.params.id, req.username)
@@ -60,13 +151,47 @@ catRouter.get("/:id", (req, res, next) => {
     .catch(err => next(err));
 });
 
+/**
+ * @swagger
+ * /cats/{id}/comments:
+ *   post:
+ *     summary: Add a comment to a cat
+ *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               content:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Comment added
+ *       400:
+ *         description: Invalid data
+ *       404:
+ *         description: Cat not found
+ */
+
 // tutti i logagti possono commentare
 catRouter.post("/:id/comments", authorization.enforceAuthentication, (req, res, next) => {
   // userName by JWT
   // JWT assicurato by middleware
   // ID by slug
 
-  const parseResult = CommentSchema.safeParse({...req.body});
+  const sanitizedContent = sanitizeHtml(req.body.content || '');
+
+  const parseResult = CommentSchema.safeParse({ content: sanitizedContent });
 
   if (!parseResult.success) {
     const errors = parseResult.error.format();
