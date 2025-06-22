@@ -4,6 +4,7 @@ import express from "express";
 // import "./models/database.js"
 import { rootRouter } from "./routes/routes.js";
 import { catRouter } from "./routes/catRouter.js";
+import { userRouter } from './routes/utenteRouter.js';
 import { authenticationRouter } from "./routes/authRouter.js";
 import { serve, setup } from './swagger.js';
 import cors from 'cors';
@@ -34,6 +35,7 @@ app.use('/api-docs', serve(), setup());
 app.use(authenticationRouter);
 app.use(rootRouter);
 app.use("/cats", catRouter);
+app.use("/users", userRouter);
 
 const keyPath = path.resolve("cert", "key.pem");
 const certPath = path.resolve("cert", "cert.pem");
@@ -45,8 +47,7 @@ const credentials = { key: privateKey, cert: certificate };
 app.use((err, req, res, next) => {
   console.error(err);
   const status = err.status || 500;
-  const message = err.message || 'Internal Server Error';
-  res.status(status).json({ error: message });
+  res.status(status).json({ error: 'Internal Server Error' });
 });
 
 https.createServer(credentials, app).listen(SERVER_PORT, () => {

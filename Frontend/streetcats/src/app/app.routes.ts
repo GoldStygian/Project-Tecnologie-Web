@@ -49,6 +49,6 @@ export const routes: Routes = [
     {
         path: "about",
         component: Whoiam,
-        title: "Who I Am | Street Cats"
+        title: "About | Street Cats"
     }
 ];

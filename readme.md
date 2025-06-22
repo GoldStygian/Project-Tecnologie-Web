@@ -15,11 +15,12 @@ ai felini avvistati.
 
 # TO-DO
 
-- documentazione swagger
-- per mobile
+- documentazione swagger quasi
+- per mobile ok
 - documentazione
-- docker + readme per esecuzione
+- docker + readme per esecuzione quasi 
 - E2E
+- utente gia registrato
 
 # Frontend (Angular)
 

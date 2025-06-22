@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Cat } from '../../models/Cat.type';
-import { Comment } from '../../models/Comment.type'
+import { User } from '../../models/User.type';
+import { Comment } from '../../models/Comment.type';
 
 export interface AuthRequest {
   usr: string, 
@@ -31,6 +32,18 @@ export class RestBackendService {
   signup(signupRequest: AuthRequest){
     const url = `${this.url}/signup`; 
     return this.http.post<string>(url, signupRequest, this.httpOptions);
+  }
+
+  getUser(username: string){
+    const url = `${this.url}/users`;
+    const params = new HttpParams().set('username', username);
+    return this.http.get<User>(url, { headers: this.httpOptions.headers,   params });
+  }
+
+  delUser(username: string){
+    const url = `${this.url}/users`;
+    const params = new HttpParams().set('username', username);
+    return this.http.delete<void>(url, { headers: this.httpOptions.headers,   params });
   }
 
   getCats() {

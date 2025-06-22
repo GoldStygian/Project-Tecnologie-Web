@@ -1,24 +1,37 @@
 <div class="mycats-container">
-    @if(cats.length == 0){
-        <h1 class="mycats-title">Nessun gatto registrato</h1>
-    }@else {
-        <h1 class="mycats-title">I Miei Gatti</h1>
-        <div class="cats-list">
-            @for(cat of cats; track cat.id){
-                <div class="cat-card">
-                <img
-                    class="cat-thumb"
-                    [src]="restService.mediaUrl + cat.photo"
-                    alt="Foto di {{ cat.title }}"
-                    [routerLink]="['/cats', cat.id]" />
-                <div class="cat-details">
-                    <h2>{{ cat.title }}</h2>
-                    <!-- <p class="cat-info"><strong>Età:</strong> {{ cat.age || 'N/A' }}</p> -->
-                    <p class="cat-info"><strong>Creato il:</strong> {{ cat.createdAt }}</p>
-                    <button class="btn-del" (click)="delCat(cat.id!)" >Elimina</button>
-                </div>
+    <div id="profile">
+        @if(userData){
+            <h1 class="username">{{userData.userName}}</h1>
+            <p class="creation-date"><strong>Data creazione: </strong>{{userData.createdAt}}</p>
+            <div class="button-div">
+                <button id="btn-logout" (click)="authService.logout()" >Logout</button>
+                <button id="btn-del-profile" class="btn-del" (click)="delUser()">Elimina profilo</button>
+            </div>
+
+            @if(cats.length == 0){
+                <h1 style="text-align: center;">Nessun gatto registrato</h1>
+            }@else {
+                <h1 class="mycats-title">I Miei Gatti</h1>
+                <div class="cats-list">
+                    @for(cat of cats; track cat.id){
+                        <div class="cat-card">
+                        <img
+                            class="cat-thumb"
+                            [src]="restService.mediaUrl + cat.photo"
+                            alt="Foto di {{ cat.title }}"
+                            [routerLink]="['/cats', cat.id]" />
+                        <div class="cat-details">
+                            <h2>{{ cat.title }}</h2>
+                            <!-- <p class="cat-info"><strong>Età:</strong> {{ cat.age || 'N/A' }}</p> -->
+                            <p class="cat-info"><strong>Creato il:</strong> {{ cat.createdAt }}</p>
+                            <button class="btn-del" (click)="delCat(cat.id!)" >Elimina</button>
+                        </div>
+                        </div>
+                    }
                 </div>
             }
-        </div>
-    }
+        }@else{
+            <h1>Errore durante il caricamento dei dati</h1>
+        }
+    </div>
 </div>

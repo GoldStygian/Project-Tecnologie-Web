@@ -4,8 +4,12 @@ import path from 'path';
 
 export class CatController {
   
-    static async getAllCats(){
-        return await Cat.findAll();
+    static async getAllCats(username){
+        const queryOptions = {};
+        if (username) {
+            queryOptions.where = { username: username };
+        }
+        return Cat.findAll(queryOptions);
     }
 
     static async getSpecificCat(catId){
