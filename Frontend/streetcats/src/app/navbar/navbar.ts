@@ -27,4 +27,14 @@ export class Navbar {
     this.sidenavOpen = false;
   }
 
+  // themeManager = inject(ThemeSwitch);
+
+  // ngOnInit() {
+  //   this.themeManager.initTheme();
+  // }
+
+  // toggleTheme() {
+  //   this.themeManager.toggleTheme();
+  // }
+
 }

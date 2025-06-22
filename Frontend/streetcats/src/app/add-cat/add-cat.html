@@ -54,6 +54,11 @@
       <div class="field">
         <h3>Descrizione Markdown</h3>
         <div #editorContainer></div>
+        @if (submitted && catForm.controls.description.errors) {
+          @if (catForm.controls.description.errors['required']) {
+            <p class="error-form">La descrizione è obbligatoria</p>
+          }
+        }
       </div>
 
       <button type="submit" class="btn-submit">Aggiungi Gatto</button>

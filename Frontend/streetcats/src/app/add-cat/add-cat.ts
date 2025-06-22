@@ -64,7 +64,7 @@ export class AddCat implements AfterViewInit {
   }
 
   configureEditor() {
-        this.editor = new Editor({
+    this.editor = new Editor({
       el: this.editorRef.nativeElement,
       height: '300px',
       initialEditType: 'markdown',
@@ -73,11 +73,25 @@ export class AddCat implements AfterViewInit {
     });
 
     this.editor.on('change', () => {
-      this.catForm.patchValue({
-        description: this.editor.getMarkdown()
-      });
+      const rawMarkdown = this.editor.getMarkdown();
+
+      // Elimina spazi, tab, righe vuote ecc.
+      const cleaned = rawMarkdown.replace(/\s/g, '');
+
+      const isEmpty = cleaned.length === 0;
+
+      if (!isEmpty) {
+        this.catForm.patchValue({
+          description: rawMarkdown
+        });
+      } else {
+        this.catForm.patchValue({
+          description: '' // oppure null
+        });
+      }
     });
   }
+
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -106,7 +120,7 @@ export class AddCat implements AfterViewInit {
         this.router.navigateByUrl("/cats");
       },
       error: (err) => {
-        this.toastr.error(err?.message, "Error");
+        this.toastr.error(err?.error?.message, "Error");
       }
     });
   }

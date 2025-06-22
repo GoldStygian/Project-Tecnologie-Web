@@ -12,17 +12,17 @@ import { ThemeSwitch } from './_services/theme-switch/theme-switch';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App implements OnInit {
+export class App {
   protected title = 'streetcats';
 
-  themeManager = inject(ThemeSwitch); // Inietto il servizio ThemeSwitch
+  themeManager = inject(ThemeSwitch);
 
   ngOnInit() {
     this.themeManager.initTheme();
   }
 
   toggleTheme() {
-    this.themeManager.toggleTheme(); // Inverte il tema e salva la preferenza
+    this.themeManager.toggleTheme();
   }
 
 }

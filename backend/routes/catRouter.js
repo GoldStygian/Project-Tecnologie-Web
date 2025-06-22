@@ -70,7 +70,9 @@ catRouter.get("", (req, res, next) => {
  *         description: Input non valido
  */
 
-catRouter.post("", authorization.enforceAuthentication, upload.single('immagine'), (req, res, next) => { // OK
+catRouter.post("", authorization.enforceAuthentication, upload.single('immagine'), (req, res, next) => {
+
+  console.log("heeeeeee", req.body);
 
   if (req.file && !req.file.mimetype.startsWith("image/")) {
     return res.status(400).json({ message: "Il file caricato non è un'immagine valida." });
@@ -79,9 +81,13 @@ catRouter.post("", authorization.enforceAuthentication, upload.single('immagine'
   const sanitizedBody = Object.fromEntries(
     Object.entries(req.body).map(([key, value]) => [
       key,
-      typeof value === 'string' ? sanitizeHtml(value) : value
+      typeof value === 'string' ? sanitizeHtml(value, ) : value
     ])
   );
+
+  if(sanitizedBody.description == "\r\n"){
+    return res.status(400).json({ message: "Descrizione vuota o non valida" });
+  }
 
   sanitizedBody.photo = `/uploads/${req.file.filename}`;
   // const photo = `/upload/${req.file.filename}`;
