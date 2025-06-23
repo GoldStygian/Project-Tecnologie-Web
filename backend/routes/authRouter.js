@@ -67,8 +67,9 @@ authenticationRouter.post("/auth", async (req, res) => {
     const errors = parseResult.error.format();
     return res.status(400).json({ message: "Dati non validi", errors });
   }
-
-  let isAuthenticated = await AuthController.checkCredentials(req, res);
+  console.log(parseResult.data);
+  console.log(req.body);
+  let isAuthenticated = await AuthController.checkCredentials(req);
   if(isAuthenticated){
     res.json(AuthController.issueToken(req.body.usr));
   } else {
@@ -119,7 +120,7 @@ authenticationRouter.post("/auth", async (req, res) => {
 
 authenticationRouter.post("/signup", async (req, res, next) => {
 
-  const parseResult = AuthSchema.safeParse({...req.body});
+  const parseResult = AuthSchema.safeParse({...req.body}); // email non inserita
 
   if (!parseResult.success) { // l'utente ha inviato dati non validi
     const errors = parseResult.error.format();
@@ -130,6 +131,8 @@ authenticationRouter.post("/signup", async (req, res, next) => {
     const user = await AuthController.saveUser(req);
     res.status(201).json(user);
   } catch (err) {
+    console.log(err);
+    if(err.status==409){return res.status(409).json({ message: "Username gia registrato" });}
     next(err);
   }
   

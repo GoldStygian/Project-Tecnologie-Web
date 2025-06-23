@@ -30,7 +30,7 @@ export class CatsPage implements OnInit {
   async ngOnInit(): Promise<void> {
     // await setTimeout((): void => { console.log("end timeout") }, 10);
     this.loading = "loading";
-    await this.sleeps(500);
+    // await this.sleeps(500);
     this.restService.getCats().subscribe({
       next: (data) => {
         this.toastr.success('Cats loaded successfully!');

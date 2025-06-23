@@ -46,7 +46,7 @@
       }
       @if (showCommentForm){
         <form class="comment" [formGroup]="commentForm" (ngSubmit)="handleAddComment()">
-          <input type="text" class="comment-content" formControlName="content" placeholder="Scrivi un commento... (max 250)">
+          <input type="text" id="inpt-comment" class="comment-content" formControlName="content" placeholder="Scrivi un commento... (max 250)">
           <div class="comment-actions">
             <button type="submit" class="comment-button btn-confirm">Conferma</button>
             <button type="button" class="comment-button btn-cancel" (click)="cancelComment()">Annulla</button>

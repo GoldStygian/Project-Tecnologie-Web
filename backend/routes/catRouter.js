@@ -72,9 +72,11 @@ catRouter.get("", (req, res, next) => {
 
 catRouter.post("", authorization.enforceAuthentication, upload.single('immagine'), (req, res, next) => {
 
-  console.log("heeeeeee", req.body);
+  if (!req.file) {
+    return res.status(400).json({ message: "Devi caricare almeno un'immagine." });
+  }
 
-  if (req.file && !req.file.mimetype.startsWith("image/")) {
+  if (!req.file.mimetype.startsWith("image/")) {
     return res.status(400).json({ message: "Il file caricato non è un'immagine valida." });
   }
 
@@ -90,9 +92,6 @@ catRouter.post("", authorization.enforceAuthentication, upload.single('immagine'
   }
 
   sanitizedBody.photo = `/uploads/${req.file.filename}`;
-  // const photo = `/upload/${req.file.filename}`;
-
-  // const payload = {...req.body, photo}
 
   const parseResult = CatSchema.safeParse(sanitizedBody); // con safe non genero errori
 

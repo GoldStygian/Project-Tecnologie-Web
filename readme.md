@@ -20,7 +20,9 @@ ai felini avvistati.
 - documentazione
 - docker + readme per esecuzione quasi 
 - E2E
-- utente gia registrato
+- utente gia registrato ok
+- dispatch componente
+- data in express
 
 # Frontend (Angular)
 

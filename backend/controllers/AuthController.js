@@ -8,7 +8,7 @@ export class AuthController {
    * @param {http.IncomingMessage} request 
    * @param {http.ServerResponse} response 
    */
-  static async checkCredentials(req, res){
+  static async checkCredentials(req){
     let user = new User({ //user data specified in the request
       userName: req.body.usr, // usr e pwd sono i nomi dei campi del json inviato
       password: req.body.pwd
@@ -30,7 +30,7 @@ export class AuthController {
         where: { userName: req.body.usr }
       })
     if(alreadUsr) { 
-      const error = new Error('Username already taken');
+      const error = new Error('Username gia registrato');
       error.status = 409;
       throw error;
     }

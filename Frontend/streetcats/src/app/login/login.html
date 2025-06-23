@@ -5,7 +5,7 @@
     </h1>
     <form [formGroup]="loginForm" (ngSubmit)="handleLogin()">
       <div>
-        <label for="user">Your username</label>
+        <label for="user">Username</label>
         <input type="text" formControlName="user" id="user" placeholder="Your username" required="">
         @if(submitted && loginForm.controls.user.errors){
           @if(loginForm.controls.user.errors['required']){

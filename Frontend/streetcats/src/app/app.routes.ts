@@ -43,7 +43,7 @@ export const routes: Routes = [
     {
         path: "mycats",
         component: MyCats,
-        title: "My Cats | Street Cats",
+        title: "Profile | Street Cats",
         canActivate: [authGuard]
     },
     {

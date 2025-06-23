@@ -43,7 +43,12 @@ export class Signup {
           setTimeout(() => {this.router.navigateByUrl("/login")}, 10);
         },
         error: (err) => {
-          this.toastr.error("Please, insert a valid username and password", "Oops! Invalid credentials");
+          console.log(err.status);
+          if (err.status === 409) {
+            this.toastr.error("Username già esistente, scegli un altro username");
+          } else {
+            this.toastr.error("Errore durante la registrazione. Inserisci username e password validi");
+          }
         },
       })
     }

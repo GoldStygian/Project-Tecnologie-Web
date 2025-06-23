@@ -9,7 +9,7 @@
             </div>
 
             @if(cats.length == 0){
-                <h1 style="text-align: center;">Nessun gatto registrato</h1>
+                <h1 id="no-cat-msg" style="text-align: center;">Nessun gatto registrato</h1>
             }@else {
                 <h1 class="mycats-title">I Miei Gatti</h1>
                 <div class="cats-list">
@@ -24,7 +24,7 @@
                             <h2>{{ cat.title }}</h2>
                             <!-- <p class="cat-info"><strong>Età:</strong> {{ cat.age || 'N/A' }}</p> -->
                             <p class="cat-info"><strong>Creato il:</strong> {{ cat.createdAt }}</p>
-                            <button class="btn-del" (click)="delCat(cat.id!)" >Elimina</button>
+                            <button class="btn-del btn-del-cat" (click)="delCat(cat.id!)" >Elimina</button>
                         </div>
                         </div>
                     }
