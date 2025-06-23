@@ -13,5 +13,23 @@ e i commenti lasciati dagli altri utenti. Solo gli utenti autenticati, però, po
 nuovi commenti, arricchendo la community con osservazioni, consigli o semplici messaggi dedicati 
 ai felini avvistati.
 
-# Esecuzione del codice (windows)
-Avviare lo script start.bat nella radice del progetto `.\start.bat`
+# Inizializzazione & Esecuzione (genereale)
+
+```bash
+cd backend
+npm install
+```
+
+```bash
+cd ..
+cd Frontend/streetcats
+npm install
+```
+
+Avviare in due terminali diversi `npm start` nelle directory:
+- backend
+- Frontend/streetcats
+
+# Inizializzazione & Esecuzione (windows)
+- Init: Lanciare lo script init.bat nella radice del progetto `.\init.bat`
+- Per eseguire: Lanciare lo script start.bat nella radice del progetto `.\start.bat`
