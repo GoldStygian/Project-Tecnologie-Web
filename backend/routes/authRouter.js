@@ -170,7 +170,7 @@ authenticationRouter.post("/auth", async (req, res) => {
 
   const isAuthenticated = await AuthController.checkCredentials(req);
   if (isAuthenticated) {
-    return res.json(AuthController.issueToken(req.body.userName));
+    return res.json(AuthController.issueToken(req.body.usr));
   } else {
     return res.status(401).json({ error: "Invalid credentials. Try again." });
   }
