@@ -53,7 +53,7 @@ export class CatDetailPage implements OnInit {
         }, 0);
       },
       error: (err) => {
-        this.toastr.error('Errore durante il fetch dei dati', err);
+        this.toastr.error('Errore durante il recupero dei dati');
         this.loading = "error";
       },
     });

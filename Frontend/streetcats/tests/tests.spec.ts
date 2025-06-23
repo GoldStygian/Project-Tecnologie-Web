@@ -11,6 +11,7 @@ const delUsr = baseUrl + '/users?username='
 
 // NOTE
 // await page.waitForSelector('#some-element');
+// afterEach
 
 const userTest = {
   usr: "userTest",
@@ -34,9 +35,14 @@ test.beforeEach(async ({ page, request }) => {
 
 });
 
-// afterEach
+test.afterAll(async ({ request }) => {
 
-// // TEST 1
+  await delUserAPI(request);
+  await delCatAPI(request);
+
+});
+
+// TEST 1
 test("Success Add Cat", async ({ page, request }) => {
 
   await login(page);
@@ -45,7 +51,7 @@ test("Success Add Cat", async ({ page, request }) => {
 
   await expect(page).toHaveTitle("Upload Cat | Street Cats");
 
-  await page.locator('#title').fill('Gattino Test');
+  await page.locator('#title').fill('title of test cat');
   await page.locator('#longitudine').fill('14.2681');
   await page.locator('#latitudine').fill('40.8518');
 
@@ -53,7 +59,6 @@ test("Success Add Cat", async ({ page, request }) => {
     const el = document.querySelector('[formcontrolname="description"]') as HTMLInputElement;
     if (el) el.value = 'Questo è un **gattino randagio** test.';
   });
-
 
   await page.setInputFiles('#image', 'tests/img/gatto1.jpg');
 
@@ -64,20 +69,6 @@ test("Success Add Cat", async ({ page, request }) => {
 });
 
 // TEST 2
-test("Unauth comment", async ({ page }) => {
-
-  // Assicuriamoci che il gatto sia effettivamente presente
-  await page.waitForSelector('.cats-container', { state: 'visible' });
-
-  await page.locator('img.cat-photo').first().click();
-
-  await page.locator('button.comment-button').click();
-
-  await expect(page).toHaveTitle("Login | Street Cats");
-
-});
-
-// TEST 3
 test("Success del cat", async ({ page }) => { 
 
   await login(page);
@@ -96,7 +87,7 @@ test("Success del cat", async ({ page }) => {
 
 });
 
-// TEST 4
+// TEST 3
 test("Success del user", async ({ page }) => { 
 
   await login(page);
@@ -111,7 +102,7 @@ test("Success del user", async ({ page }) => {
 
 });
 
-// TEST 5
+// TEST 3
 test("Success add comment", async ({ page }) => {
 
   await login(page);
@@ -141,7 +132,7 @@ test("Success add comment", async ({ page }) => {
 });
 
 
-// TEST 6
+// TEST 5
 test("Fail overflow comment", async ({ page }) => {
 
   await login(page);
@@ -177,6 +168,49 @@ test("Fail overflow comment", async ({ page }) => {
 
   const cancelBtn = page.locator(".comment-actions .btn-cancel");
   await expect(cancelBtn).toBeVisible();
+
+});
+
+// TEST 6
+test("Unauth comment", async ({ page }) => {
+
+  await login(page);
+
+  await page.locator('a[routerLink="/add-cat"]').first().click();
+
+  await expect(page).toHaveTitle("Upload Cat | Street Cats");
+
+  await page.locator('#title').fill('title of test cat');
+  await page.locator('#longitudine').fill('14.2681');
+  await page.locator('#latitudine').fill('40.8518');
+
+  await page.evaluate(() => {
+    const el = document.querySelector('[formcontrolname="description"]') as HTMLInputElement;
+    if (el) el.value = 'Questo è un **gattino randagio** test.';
+  });
+
+  await page.setInputFiles('#image', 'tests/img/gatto1.jpg');
+
+  await page.locator(".btn-submit").click();
+
+  await expect(page).toHaveTitle("Street Cats");
+
+  await page.locator('#logout-btn').first().click();
+
+  await page.waitForSelector('.cats-container', { state: 'visible' }); // Assicuriamoci che il gatto sia effettivamente presente
+  const catCard = page.locator('.cat-card').first();
+  await expect(catCard).toBeVisible();
+
+  const catPhoto = catCard.locator('img.cat-photo');
+  await expect(catPhoto).toBeVisible();
+  await catPhoto.scrollIntoViewIfNeeded();
+  await catPhoto.click();
+
+  await expect(page).toHaveTitle("Cat | Street Cats");
+
+  await page.locator('button.comment-button').click();
+
+  await expect(page).toHaveTitle("Login | Street Cats");
 
 });
 
@@ -220,25 +254,75 @@ test("Fail wrong cords", async ({ page }) => {
 });
 
 // TEST 8 
-// /HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-test("Fail wrong cords", async ({ page }) => {
-  
+test("Fail signup", async ({ page }) => {
+
+  // riprovo a registrarmi
+  await page.locator('a[routerLink="/signup"]').first().click();
+
+  await page.waitForTimeout(4000);
+
+  await page.locator("#user").fill(userTest.usr);
+  await page.locator("#pass").fill(userTest.pwd);
+  await page.locator('button', { hasText: 'Sign up' }).click({ timeout: 50_000 });
+
+  // <div id="toast-container" class="toast-bottom-right toast-container" bis_skin_checked="1">
+  // <div toast-component="" class="ng-tns-c969959638-15 ng-star-inserted ng-trigger ng-trigger-flyInOut ngx-toastr toast-error" style="opacity: 1;" bis_skin_checked="1"><!--container--><!--container--><!--container--><div role="alert" class="ng-tns-c969959638-15 toast-message ng-star-inserted" aria-label="Username già esistente, scegli un altro username" style="" bis_skin_checked="1"> Username già esistente, scegli un altro username </div><!--container--><div class="ng-tns-c969959638-15 ng-star-inserted" style="" bis_skin_checked="1"><div class="toast-progress ng-tns-c969959638-15" style="width: 32.98%;" bis_skin_checked="1"></div></div><!--container--></div></div>
+
+  const toast = page.locator('.toast-message', {
+    hasText: 'Username già esistente, scegli un altro username'
+  });
+
+  await expect(toast).toBeVisible();
+  await expect(toast).toHaveText('Username già esistente, scegli un altro username');
+  await toast.click();
+
+
+  await page.locator("#pass").fill("12");
+  await page.locator('button', { hasText: 'Sign up' }).click({ timeout: 50_000 });
+  const err =  page.locator(".error-form").first();
+  await expect(err).toBeVisible();
+  expect(err).toContainText("La password deve avere minimo 4 caratteri");
+
+
+  await page.locator("#pass").fill("12345678910111213141516");
+  await page.locator('button', { hasText: 'Sign up' }).click({ timeout: 50_000 });
+  await expect(err).toBeVisible();
+  expect(err).toContainText("La password deve avere massimo 16 caratteri");
+
 });
 
 // TEST 9
+test("Fail login", async ({ page }) => {
+
+  // riprovo a registrarmi
+  await page.locator('a[routerLink="/login"]').first().click();
+
+  await page.locator("#user").fill(userTest.usr);
+  await page.locator("#pass").fill("12");
+  const signinBtn =  page.locator('button', { hasText: 'Sign in' });
+  await signinBtn.click({ timeout: 50_000 });
+  const err =  page.locator(".error-form").first();
+  await expect(err).toBeVisible();
+  expect(err).toContainText("La password deve avere minimo 4 caratteri");
+
+
+  await page.locator("#pass").fill("12345678910111213141516");
+  await signinBtn.click({ timeout: 50_000 });
+  await expect(err).toBeVisible();
+  expect(err).toContainText("La password deve avere massimo 16 caratteri");
+
+});
 
 // TEST 10
-// test("Success Signup & Login", async ({ page, request }) => {
+test("Success Signup & Login", async ({ page, request }) => {
 
-//   await delUserAPI(request);
+  await delUserAPI(request);
 
-//   await signup(page);
+  await signup(page);
 
-//   await login(page);
+  await login(page);
 
-//   await delUser(page);
-
-// });
+});
 
 // ======== FUNCTIONS ========
 
@@ -314,6 +398,16 @@ async function resetTestUser(request) {
 
 async function delUserAPI(request) {
   const deleteResponse = await request.delete(`${backendUrl}/users?username=${userTest.usr}`, {
+    headers: {
+      Authorization: `Bearer ${userTest.jwt}`
+    }
+  });
+
+  return deleteResponse;
+}
+
+async function delCatAPI(request) {
+  const deleteResponse = await request.delete(`${backendUrl}/cats/${catTest.id}`, {
     headers: {
       Authorization: `Bearer ${userTest.jwt}`
     }

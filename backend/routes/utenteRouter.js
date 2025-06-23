@@ -4,6 +4,22 @@ import * as authorization from "../middleware/authorization.js";
 
 export const userRouter = new express.Router();
 
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Retrieve a list of users
+ *     responses:
+ *       200:
+ *         description: A list of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ */
+
 userRouter.get("", (req, res, next) => {
 
   const username = req.query.username;
@@ -15,6 +31,31 @@ userRouter.get("", (req, res, next) => {
   });
 
 });
+
+/**
+ * @swagger
+ * /users:
+ *   delete:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Delete a user by username
+ *     parameters:
+ *       - in: query
+ *         name: username
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Username of the user to delete
+ *     responses:
+ *       204:
+ *         description: User deleted successfully
+ *       400:
+ *         description: Missing username parameter
+ *       403:
+ *         description: Forbidden. Cannot delete other users
+ *       404:
+ *         description: User not found
+ */
 
 // deve essere autenticato => req.username = decodedToken.user;
 userRouter.delete("", authorization.enforceAuthentication, (req, res, next) => {
